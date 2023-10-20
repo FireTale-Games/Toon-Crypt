@@ -3,23 +3,23 @@ using UnityEngine;
 
 namespace FT.Ability.States
 {
-    public class PoisonState : AbilityState
+    public class BurnState : AbilityState
     {
-        private const float _duration = 10.0f;
-        private float _currentDuration = 0.0f;
+        private const float _duration = 14.0f;
+        private float _currentDuration;
         
         public override void ResetDuration() => 
             _currentDuration = 0.0f;
 
         public override void Execute() => 
-            StartCoroutine(nameof(PoisonAttack));
+            StartCoroutine(nameof(BurnAttack));
 
-        private IEnumerator PoisonAttack()
+        private IEnumerator BurnAttack()
         {
             while (_currentDuration < _duration)
             {
-                yield return new WaitForSeconds(1);
-                _currentDuration += 1.0f;
+                yield return new WaitForSeconds(2.0f);
+                _currentDuration += 2.0f;
 
                 StatsController.ApplyDamage(AbilityInfo.Damage);
             }

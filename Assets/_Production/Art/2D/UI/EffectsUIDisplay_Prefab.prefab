@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2350061861745027722}
   - component: {fileID: 3559932503547768614}
   m_Layer: 5
-  m_Name: AbilityUIDisplay_Prefab
+  m_Name: EffectsUIDisplay_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.3, y: 0.3}
+  m_SizeDelta: {x: 0.5, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2350061861745027722
 CanvasRenderer:
