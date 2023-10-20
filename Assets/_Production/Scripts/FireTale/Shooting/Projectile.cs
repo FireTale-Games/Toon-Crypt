@@ -6,8 +6,8 @@ namespace FT.Shooting
 {
     public class Projectile : MonoBehaviour
     {
-        public IObservableAction<Action> OnHit => _onHit;
-        private readonly ObservableAction<Action> _onHit = new();
+        public IObservableAction<Action<IHit>> OnHit => _onHit;
+        private readonly ObservableAction<Action<IHit>> _onHit = new();
         
         
         private void FixedUpdate() => 
@@ -15,10 +15,10 @@ namespace FT.Shooting
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out IHit _) == false)
+            if (other.TryGetComponent(out IHit hit) == false)
                 return;
             
-            _onHit.Action?.Invoke();
+            _onHit.Action?.Invoke(hit);
             Destroy(gameObject);
         }
     }

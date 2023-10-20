@@ -49,7 +49,7 @@ namespace FT.Shooting
             }
         }
         
-        private IObservableAction<Action> ShootProjectile()
+        private IObservableAction<Action<IHit>> ShootProjectile()
         {
             Projectile projectile = Instantiate(_projectile, _spawnPoint);
             projectile.transform.SetParent(GameObject.FindWithTag("Dynamic").transform);
@@ -57,14 +57,16 @@ namespace FT.Shooting
             return projectile.OnHit;
         }
         
-        private void OnHit()
+        private void OnHit(IHit hit)
         {
-            Debug.Log("Hello1");
             List<IAbilityState> abilityStates = _abilities.Select(ability => Instantiate(ability.Prefab, GameObject.FindWithTag("Dynamic").transform).GetComponent<IAbilityState>()).ToList();
             HashSet<IHit> hitObjects = new();
 
             foreach (IAbilityState abilityState in abilityStates)
-                hitObjects.UnionWith(abilityState.GatherData());
+                abilityState.SingleTarget(hit);
+            
+            foreach (IAbilityState abilityState in abilityStates)
+                hitObjects.UnionWith(abilityState.GatherData(hit));
 
             foreach (IAbilityState abilityState in abilityStates)
                 abilityState.ExecuteCall(hitObjects);
