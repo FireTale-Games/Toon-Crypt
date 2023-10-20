@@ -1,0 +1,18 @@
+{
+    "name": "GG.Shooting",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0705f25cd3a62fc408a1a5e2091b781f",
+        "GUID:eb5492f7cb7523849b2720d35b131fb1",
+        "GUID:3740483d504759d4aad2ec3cec884970"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

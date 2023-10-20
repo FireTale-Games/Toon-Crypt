@@ -435,7 +435,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ac463ef88c938499daca0b8a9c2b49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shootDelay: 2
+  _shootDelay: 0.3
+  _projectile: {fileID: 6933081131873257325, guid: 6443070519f9df144b526ff49f43f00f,
+    type: 3}
 --- !u!1 &623075080
 GameObject:
   m_ObjectHideFlags: 0
