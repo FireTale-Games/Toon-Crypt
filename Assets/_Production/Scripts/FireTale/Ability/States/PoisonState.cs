@@ -1,5 +1,4 @@
 using System.Collections;
-using FT.TD;
 using UnityEngine;
 
 namespace FT.Ability.States
@@ -22,7 +21,7 @@ namespace FT.Ability.States
                 yield return new WaitForSeconds(1);
                 _currentDuration += 1.0f;
 
-                GetComponentInParent<CharacterStatsController>().health -= 2.0f;
+                StatsController.ApplyDamage(2.0f);
             }
             
             _onDispose.Action?.Invoke(this);
