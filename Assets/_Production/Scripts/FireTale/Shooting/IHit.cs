@@ -1,10 +1,9 @@
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace FT.Shooting
 {
     public interface IHit
     {
-        public void Damage(float damage);
-        public Vector3 Position { get; }
+        public void RegisterAbilityStates(List<Data.Ability> abilities);
     }
 }

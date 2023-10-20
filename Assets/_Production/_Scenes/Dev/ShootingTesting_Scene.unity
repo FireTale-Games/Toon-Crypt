@@ -417,27 +417,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &566189417 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2891413645751085611, guid: 94db6e6c7fed8984fbd64065c9b534c0,
-    type: 3}
-  m_PrefabInstance: {fileID: 8467087528875361442}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &566189424
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 566189417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39ac463ef88c938499daca0b8a9c2b49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _shootDelay: 0.3
-  _projectile: {fileID: 6933081131873257325, guid: 6443070519f9df144b526ff49f43f00f,
-    type: 3}
 --- !u!1 &623075080
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,11 +1131,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1793432201}
     m_Modifications:
-    - target: {fileID: 2722569595374299511, guid: 94db6e6c7fed8984fbd64065c9b534c0,
-        type: 3}
-      propertyPath: <WalkSpeed>k__BackingField
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 2891413645751085611, guid: 94db6e6c7fed8984fbd64065c9b534c0,
         type: 3}
       propertyPath: m_Name
@@ -1215,11 +1189,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2891413645751085611, guid: 94db6e6c7fed8984fbd64065c9b534c0,
-        type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 566189424}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94db6e6c7fed8984fbd64065c9b534c0, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

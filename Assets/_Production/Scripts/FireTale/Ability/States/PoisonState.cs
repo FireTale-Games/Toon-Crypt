@@ -1,24 +1,32 @@
 using System.Collections;
-using FT.Shooting;
+using FT.TD;
 using UnityEngine;
 
 namespace FT.Ability.States
 {
     public class PoisonState : AbilityState
     {
-        public override void SingleTarget(IHit hit) =>
-            StartCoroutine(HitRepeatable(hit));
+        private const float _duration = 10.0f;
+        private float _currentDuration = 0.0f;
+        
+        public override void ResetDuration() => 
+            _currentDuration = 0.0f;
 
-        private IEnumerator HitRepeatable(IHit hit)
+        public override void Execute() => 
+            StartCoroutine(nameof(PoisonAttack));
+
+        private IEnumerator PoisonAttack()
         {
-            byte index = 0;
-            while (index < 3)
+            while (_currentDuration < _duration)
             {
                 yield return new WaitForSeconds(1);
-                hit.Damage(2);
+                _currentDuration += 1.0f;
 
-                index++;
+                GetComponentInParent<CharacterStatsController>().health -= 2.0f;
             }
+            
+            _onDispose.Action?.Invoke(this);
+            Destroy(gameObject);
         }
     }
 }

@@ -1,15 +1,15 @@
-using System.Collections.Generic;
-using FT.Shooting;
+using System;
+using FT.Tools.Observers;
 using UnityEngine;
 
 namespace FT.Ability
 {
     public abstract class AbilityState : MonoBehaviour, IAbilityState
     {
-        public virtual HashSet<IHit> GatherData(IHit hit) { return new HashSet<IHit>(); }
-
-        public virtual void SingleTarget(IHit hit) { }
-
-        public virtual void ExecuteCall(HashSet<IHit> hits) { }
+        public IObservableAction<Action<IAbilityState>> OnDispose => _onDispose;
+        protected readonly ObservableAction<Action<IAbilityState>> _onDispose = new();
+        
+        public virtual void ResetDuration() { }
+        public virtual void Execute() { }
     }
 }

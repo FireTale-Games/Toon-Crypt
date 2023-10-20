@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using FT.Ability;
 using FT.TD;
 using FT.Tools.Observers;
 using UnityEngine;
@@ -57,19 +55,6 @@ namespace FT.Shooting
             return projectile.OnHit;
         }
         
-        private void OnHit(IHit hit)
-        {
-            List<IAbilityState> abilityStates = _abilities.Select(ability => Instantiate(ability.Prefab, GameObject.FindWithTag("Dynamic").transform).GetComponent<IAbilityState>()).ToList();
-            HashSet<IHit> hitObjects = new();
-
-            foreach (IAbilityState abilityState in abilityStates)
-                abilityState.SingleTarget(hit);
-            
-            foreach (IAbilityState abilityState in abilityStates)
-                hitObjects.UnionWith(abilityState.GatherData(hit));
-
-            foreach (IAbilityState abilityState in abilityStates)
-                abilityState.ExecuteCall(hitObjects);
-        }
+        private void OnHit(IHit hit) => hit.RegisterAbilityStates(_abilities);
     }
 }
