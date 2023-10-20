@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11353897ac20b80488a188bf5e70d15c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <WalkSpeed>k__BackingField: 5
+  <WalkSpeed>k__BackingField: 10
 --- !u!114 &8744946605416693901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,6 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8df8b3ec24810b4eb3b116664e894d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mesh: {fileID: 9126478200597670287}
 --- !u!114 &4225358434376315113
 MonoBehaviour:
   m_ObjectHideFlags: 0

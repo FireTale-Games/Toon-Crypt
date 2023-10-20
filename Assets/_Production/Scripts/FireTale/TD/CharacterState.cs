@@ -5,7 +5,6 @@ namespace FT.TD
 {
     public class CharacterState
     {
-        public ObservableProperty<Vector3> MoveDirection = new();
-        public ObservableProperty<bool> IsShooting = new();
+        public ObservableProperty<bool> IsShooting { get; }= new();
     }
 }
