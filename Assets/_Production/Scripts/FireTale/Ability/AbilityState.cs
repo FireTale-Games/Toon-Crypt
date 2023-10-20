@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FT.Data;
 using FT.TD;
 using FT.Tools.Observers;
@@ -12,7 +13,7 @@ namespace FT.Ability
         
         protected CharacterStatsController StatsController => _statsController ??= GetComponentInParent<CharacterStatsController>();
         private CharacterStatsController _statsController;
-        
+
         public IObservableAction<Action<IAbilityState>> OnDispose => _onDispose;
         protected readonly ObservableAction<Action<IAbilityState>> _onDispose = new();
 
@@ -22,5 +23,6 @@ namespace FT.Ability
         public void Initialize(int id) => Id = id;
         public virtual void ResetDuration() { }
         public virtual void Execute() { }
+        public virtual void Execute(List<Data.Ability> abilities) { }
     }
 }

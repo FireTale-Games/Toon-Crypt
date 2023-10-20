@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FT.Ability;
+using FT.Data;
 using FT.Shooting;
 using FT.Tools.Observers;
 using UnityEngine;
@@ -40,9 +41,11 @@ namespace FT.TD
                 
                 _abilityStates.Add(abilityState);
                 _onAbilityRegister.Action?.Invoke(abilityState);
-                
-                new WaitForEndOfFrame();
-                abilityState.Execute();
+
+                if (ability.HitType == AbilityHitType.SINGLE_TARGET)
+                    abilityState.Execute();
+                else
+                    abilityState.Execute(abilities.Where(value => value.HitType == AbilityHitType.SINGLE_TARGET).ToList());
             }
         }
 
