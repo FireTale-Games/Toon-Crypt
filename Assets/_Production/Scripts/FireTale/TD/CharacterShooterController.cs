@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using FT.Data;
+using System.Linq;
+using FT.Ability;
 using FT.TD;
 using FT.Tools.Observers;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace FT.Shooting
         [SerializeField] private float _shootDelay;
         [SerializeField] private Projectile _projectile;
         [SerializeField] private Transform _spawnPoint;
-        [SerializeField] private List<Ability> _abilities;
+        [SerializeField] private List<Data.Ability> _abilities;
 
         private float _nextShootTime;
         
@@ -39,8 +40,7 @@ namespace FT.Shooting
             {
                 if (_nextShootTime <= Time.time)
                 {
-                    Projectile projectile = Instantiate(_projectile, _spawnPoint);
-                    projectile.transform.SetParent(GameObject.FindWithTag("Dynamic").transform);
+                    ShootProjectile().AddObserver(OnHit);
                     
                     _nextShootTime = Time.time + _shootDelay;
                 }
@@ -59,7 +59,15 @@ namespace FT.Shooting
         
         private void OnHit()
         {
-            
+            Debug.Log("Hello1");
+            List<IAbilityState> abilityStates = _abilities.Select(ability => Instantiate(ability.Prefab, GameObject.FindWithTag("Dynamic").transform).GetComponent<IAbilityState>()).ToList();
+            HashSet<IHit> hitObjects = new();
+
+            foreach (IAbilityState abilityState in abilityStates)
+                hitObjects.UnionWith(abilityState.GatherData());
+
+            foreach (IAbilityState abilityState in abilityStates)
+                abilityState.ExecuteCall(hitObjects);
         }
     }
 }
