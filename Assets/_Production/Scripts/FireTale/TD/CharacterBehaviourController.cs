@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace FT.TD
 {
-    [DisallowMultipleComponent, RequireComponent(typeof(PlayerInputController), typeof(CharacterBehaviourController))]
+    [DisallowMultipleComponent, RequireComponent(typeof(PlayerInputController), typeof(CharacterPhysicsController))]
     public class CharacterBehaviourController : MonoBehaviour
     {
         private CharacterPhysicsController _physicsController;
