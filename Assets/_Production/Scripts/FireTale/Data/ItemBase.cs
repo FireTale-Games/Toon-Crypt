@@ -3,11 +3,15 @@ using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace FT.Data
 {
     public class ItemBase : ScriptableObject
     {
-        [field: SerializeField] public string Name { get; private set; }
+        [field: SerializeField] public string Name { get; protected set; }
         
         public int Id => NameToId(Name);
         
@@ -18,5 +22,13 @@ namespace FT.Data
             int uniqueID = BitConverter.ToInt32(bytes, 0);
             return uniqueID;
         }
+                
+#if UNITY_EDITOR
+        public void UpdateData(ItemBase item)
+        {
+            item.name = name;
+            EditorUtility.CopySerialized(item, this);
+        }
+#endif
     }
 }

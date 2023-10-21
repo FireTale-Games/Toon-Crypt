@@ -20,8 +20,8 @@ namespace FT.Data
         public static TT Get<TT>(int id) where TT : T => Get(id) as TT;
         
 #if UNITY_EDITOR
-        public string GetDownloadUrl() => 
-            $"https://docs.google.com/spreadsheets/d/{_spreadsheetId}/gviz/tq?tqx=out:csv";
+        public string GetDownloadUrl(Type type) => 
+            $"https://docs.google.com/spreadsheets/d/{_spreadsheetId}/gviz/tq?tqx=out:csv&sheet={type.Name}&tq=select%20*%20where%20A%3D%22{type.Name}%22%20or%20A%3D%22Type%22";
         
         private class ItemEqualityComparer<T> : IEqualityComparer<T> where T : ItemBase
         {

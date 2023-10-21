@@ -55,21 +55,9 @@ namespace FT.Data
             scriptableObject.Setup(dataRow);
             return scriptableObject;
         }
-        
-        public string GetDownloadUrl(Type type)
-        {
-            return GetDownloadUrl() + $"&sheet={type.Name}" +
-                   // select * where A="<type_name>" or A="Type"
-                   $"&tq=select%20*%20where%20A%3D%22{type.Name}%22%20or%20A%3D%22Type%22";
-        }
 
-        public static List<Type> GetAllItemTypes()
-        {
-            return typeof(Item)
-                .Assembly.GetTypes()
-                .Where(t => t.IsSubclassOf(typeof(Item)))
-                .ToList();
-        }
+        public static List<Type> GetAllItemTypes() =>
+            typeof(Item).Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Item))).ToList();
 
         public static Type GetType(string typeName) => GetAllItemTypes().FirstOrDefault(t => t.Name == typeName);
     }
