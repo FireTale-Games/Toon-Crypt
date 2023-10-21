@@ -11,7 +11,7 @@ namespace FT.Data
         
         public int Id => NameToId(Name);
         
-        private static int NameToId(string input)
+        public static int NameToId(string input)
         {
             using SHA256 sha256Hash = SHA256.Create();
             byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
