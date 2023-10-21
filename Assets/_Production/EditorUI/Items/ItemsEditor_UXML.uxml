@@ -1,0 +1,25 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/_Production/EditorUI/GameEditor_USS.uss?fileID=7433441132597879392&amp;guid=95ab777a69d2edd438db76995c881be6&amp;type=3#GameEditor_USS" />
+    <ui:VisualElement name="Canvas" style="flex-grow: 1; flex-direction: row; padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px;">
+        <ui:VisualElement name="DataList" style="width: 30%;">
+            <ui:Label text="Data" display-tooltip-when-elided="true" name="Header" class="header-text" />
+            <ui:VisualElement name="HorizontalSeparator" class="horizontal-separator" />
+            <ui:VisualElement name="Content" style="flex-grow: 1;">
+                <ui:VisualElement name="ItemDatabaseEditor" style="justify-content: center; flex-direction: column; align-items: auto; height: 40px; margin-bottom: 3px;">
+                    <ui:VisualElement name="Row" class="data-border" style="flex-direction: row; align-items: center; flex-grow: 1; -unity-background-image-tint-color: rgb(255, 255, 255);">
+                        <ui:VisualElement name="Icon" style="height: 35px; width: 35px; background-image: url(&apos;project://database/Packages/com.unity.inputsystem/InputSystem/Editor/Icons/d_Add%20Binding@4x.png?fileID=2800000&amp;guid=4a0ce0eda6ee74c669b13104649e1313&amp;type=3#d_Add Binding@4x&apos;); -unity-background-image-tint-color: rgb(26, 188, 221);" />
+                        <ui:Label text="Item Index" display-tooltip-when-elided="true" name="Name" class="data-text" style="flex-grow: 1;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="VerticalSeparator" class="vertical-separator" />
+        <ui:VisualElement name="DataDetails" style="flex-grow: 1;">
+            <ui:VisualElement name="Header" style="flex-direction: row; justify-content: space-between;">
+                <ui:Label text="Details" display-tooltip-when-elided="true" name="Name" class="header-text" />
+            </ui:VisualElement>
+            <ui:VisualElement name="HorizontalSeparator" class="horizontal-separator" />
+            <ui:VisualElement name="DetailsContent" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

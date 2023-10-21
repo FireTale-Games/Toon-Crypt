@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="ItemDatabaseDetails">
+        <ui:Button text="Downlad All CSV" display-tooltip-when-elided="true" name="DownloadAllCSV" />
+        <ui:VisualElement style="flex-direction: row;">
+            <ui:Button text="Download Single CSV" display-tooltip-when-elided="true" name="DownloadSingleCSV" style="flex-grow: 0.7; flex-basis: 0.7%;" />
+            <ui:DropdownField index="0" name="SelectedType" style="flex-grow: 0.3; flex-basis: 0.3px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

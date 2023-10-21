@@ -1,0 +1,52 @@
+.header-text {
+    padding: 0;
+    font-size: 22px;
+    -unity-font-style: normal;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.data-text {
+    flex-grow: 0;
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 18px;
+    overflow: hidden;
+}
+
+.data-field {
+    margin: 1px 0;
+    font-size: 16px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.vertical-separator {
+    width: 2px;
+    background-color: rgb(221, 152, 26);
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.horizontal-separator {
+    height: 2px;
+    background-color: rgb(221, 152, 26);
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
+
+.horizontal-separator-mini {
+    height: 1px;
+    background-color: rgb(221, 152, 26);
+    margin: 0 3px 2px;
+    padding-bottom: 0;
+}
+
+.data-border {
+    border-radius: 5px;
+    background-color: rgb(31, 31, 31);
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+}
