@@ -81,7 +81,7 @@ namespace Editor.Items
             foreach ((DataTable table, Type type) in _loadedTables)
             {
                 Debug.Log($"Loading table {table.TableName}");
-                //_itemDatabase.LoadTable(table, type);
+                _itemDatabase.Load(table, type);
             }
             
             EditorUtility.SetDirty(_itemDatabase);

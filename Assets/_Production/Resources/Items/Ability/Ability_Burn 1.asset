@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03f58eab962397249b321f9f589acfd5, type: 3}
-  m_Name: Burn_Ability
+  m_Name: Ability_Burn 1
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Burn
   <DisplayName>k__BackingField: Burn
   <Prefab>k__BackingField: {fileID: 7335985499785114225, guid: 68c110d0c125ba349a0c3c037f250abb,
     type: 3}
-  <Icon>k__BackingField: {fileID: 21300000, guid: eb95b93b18fdc3340958875cc82c01ba,
+  <Sprite>k__BackingField: {fileID: 21300000, guid: eb95b93b18fdc3340958875cc82c01ba,
     type: 3}
-  <Damage>k__BackingField: 3
+  <Damage>k__BackingField: 4
+  <SpreadType>k__BackingField: 1

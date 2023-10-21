@@ -6,14 +6,13 @@ using Editor.Items;
 using FT.Data;
 using FT.Tools.CSV;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Toolkit
 {
     public class ItemDatabaseEditor : EditorScreenBase
     {
-        private const string SpreadsheetId = "14TTwigcrjFwfRgIVtJLvxLCRWvuEk9ZgRkwrnJsP0nQ";
-    
         private ItemDatabase _itemDatabase;
         private List<Type> _itemTypes;
         private readonly List<(DataTable, Type)> _loadedTables = new();
@@ -26,9 +25,7 @@ namespace Editor.Toolkit
     
         protected sealed override void BindData(VisualElement parentElement)
         {
-            string[] guids = AssetDatabase.FindAssets("t:ItemDatabase");
-            string assetPath = AssetDatabase.GUIDToAssetPath(guids.First());
-            _itemDatabase = AssetDatabase.LoadAssetAtPath<ItemDatabase>(assetPath);
+            _itemDatabase = Resources.Load(nameof(ItemDatabase)) as ItemDatabase;
             _datasheetLoaderEditor = new DatasheetLoaderEditor(_itemDatabase);
     
             SetUpButtons(parentElement);
@@ -77,10 +74,7 @@ namespace Editor.Toolkit
         private (string, Action<byte[]>) CreateRequest(Type type)
         {
             void Data(byte[] rawData) => OnData(rawData, type);
-            return (GetDownloadItemUrl(type), Data);
+            return (_itemDatabase.GetDownloadUrl(type), Data);
         }
-        
-        private string GetDownloadItemUrl(Type type) =>
-            $"https://docs.google.com/spreadsheets/d/{SpreadsheetId}/gviz/tq?tqx=out:csv&sheet={type.Name}";
     }
 }
