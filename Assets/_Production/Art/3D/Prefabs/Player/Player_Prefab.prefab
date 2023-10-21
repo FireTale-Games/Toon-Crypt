@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5319225573371922037}
+  - component: {fileID: 7429153672560071703}
   - component: {fileID: 2722569595374299511}
   - component: {fileID: 8744946605416693901}
   - component: {fileID: 4225358434376315113}
@@ -39,6 +40,26 @@ Transform:
   - {fileID: 8553035815885135209}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7429153672560071703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2891413645751085611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ac463ef88c938499daca0b8a9c2b49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shootDelay: 0.3
+  _projectile: {fileID: 6933081131873257325, guid: 6443070519f9df144b526ff49f43f00f,
+    type: 3}
+  _spawnPoint: {fileID: 4261930988654408766}
+  _abilities:
+  - {fileID: 11400000, guid: 5f7de6ecb6b53474ba4670925b6c1b88, type: 2}
+  - {fileID: 11400000, guid: b56efc9dfc0c3cb43bae9430297ea02b, type: 2}
+  - {fileID: 11400000, guid: c14bc57920e3e0846a7aa85dff394780, type: 2}
 --- !u!114 &2722569595374299511
 MonoBehaviour:
   m_ObjectHideFlags: 0

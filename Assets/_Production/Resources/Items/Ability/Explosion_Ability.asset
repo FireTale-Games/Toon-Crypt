@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03f58eab962397249b321f9f589acfd5, type: 3}
-  m_Name: Poison_Ability
+  m_Name: Explosion_Ability
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Poison
-  <DisplayName>k__BackingField: Poison
-  <Prefab>k__BackingField: {fileID: 7335985499785114225, guid: 0e912529892cc044ebf97ccb810f8806,
+  <Name>k__BackingField: Explosion
+  <DisplayName>k__BackingField: Explosion
+  <Prefab>k__BackingField: {fileID: 7335985499785114225, guid: fafda80a356cfca47a0f46d23d933bce,
     type: 3}
-  <Icon>k__BackingField: {fileID: 21300000, guid: 76062be80f329c94e85183a03ac0e318,
+  <Icon>k__BackingField: {fileID: 21300000, guid: ab82c97aa0fdbdf499160e625d1f776f,
     type: 3}
-  <Damage>k__BackingField: 1
+  <Damage>k__BackingField: 20
+  <HitType>k__BackingField: 1
