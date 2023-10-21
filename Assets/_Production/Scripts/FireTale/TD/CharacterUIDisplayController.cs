@@ -21,7 +21,7 @@ namespace FT.TD
         private void RegisterAbility(IAbilityState abilityState)
         {
             Image abilitySprite = Instantiate(_abilityUIEffect, _statEffectsGroup);
-            abilitySprite.sprite = abilityState.AbilityInfo.Icon;
+            abilitySprite.sprite = abilityState.AbilityInfo.Sprite;
             abilitySprite.name = abilityState.AbilityInfo.Id.ToString();
         }
 
