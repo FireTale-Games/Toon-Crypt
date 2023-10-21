@@ -23,61 +23,60 @@ namespace FT.Data
         public string GetDownloadUrl(Type type) => 
             $"https://docs.google.com/spreadsheets/d/{_spreadsheetId}/gviz/tq?tqx=out:csv&sheet={type.Name}";
         
-        private class ItemEqualityComparer<T> : IEqualityComparer<T> where T : ItemBase
+        private class ItemEqualityComparer<TT> : IEqualityComparer<TT> where TT : ItemBase
         {
-            public bool Equals(T x, T y)
+            public bool Equals(TT x, TT y)
             {
                 if (ReferenceEquals(x, y)) return true;
                 if (ReferenceEquals(x, null) || ReferenceEquals(y, null) || x.GetType() != y.GetType()) return false;
                 return x.Id == y.Id;
             }
         
-            public int GetHashCode(T obj) => obj.GetHashCode();
+            public int GetHashCode(TT obj) => obj.GetHashCode();
         }
         
-        protected void Load<T>(List<T> values, List<T> targets, string targetsPath, Func<T, bool> filter) where T : ItemBase
+        protected void Load<TT>(List<TT> values, List<TT> targets, string targetsPath, Func<TT, bool> filter) where TT : ItemBase
         {
             if (!values.Any())
                 return;
             
             List<Type> types = values.Select(x => x.GetType()).Distinct().ToList();
             Assert.IsTrue(types.Count == 1);
-            Type type = types.First();
-            
-            string CreateItemPath(T item)
+
+            string CreateItemPath(TT item)
             {
                 string itemName = $"{item.GetType().Name}_{item.Name.Replace(" ", "")}.asset";
                 return AssetDatabase.GenerateUniqueAssetPath(Path.Combine(targetsPath, itemName));
             }
             
-            var comparer = new ItemEqualityComparer<T>();
-            Dictionary<T, string> itemPaths = targets.Where(filter)
+            ItemEqualityComparer<TT> comparer = new();
+            Dictionary<TT, string> itemPaths = targets.Where(filter)
                 .ToDictionary(item => item, AssetDatabase.GetAssetPath);
             
-            List<(T item, string)> itemsToAdd = values.Except(targets, comparer)
+            List<(TT item, string)> itemsToAdd = values.Except(targets, comparer)
                 .Select(item => (item, CreateItemPath(item))).ToList();
 
-            List<(T item, string)> itemsToUpdate = values.Intersect(targets, comparer)
+            List<(TT item, string)> itemsToUpdate = values.Intersect(targets, comparer)
                 .Select(item => (item, itemPaths[item])).ToList();
             
-            List<(T item, string)> itemsToDelete = targets.Where(filter).Except(values, comparer)
+            List<(TT item, string)> itemsToDelete = targets.Where(filter).Except(values, comparer)
                 .Select(item => (item, itemPaths[item])).ToList();
 
-            foreach ((T item, string path) in itemsToAdd)
+            foreach ((TT item, string path) in itemsToAdd)
             {
                 Debug.Log("Creating " + path);
                 AssetDatabase.CreateAsset(item, path);
             }
 
-            foreach ((T item, string path) in itemsToUpdate)
+            foreach ((TT item, string path) in itemsToUpdate)
             {
                 Debug.Log("Updating " + path);
-                T serializedItem = AssetDatabase.LoadMainAssetAtPath(path) as T;
+                TT serializedItem = AssetDatabase.LoadMainAssetAtPath(path) as TT;
                 Assert.IsNotNull(serializedItem);
                 serializedItem.UpdateData(item);
             }
 
-            foreach ((T _, string path) in itemsToDelete)
+            foreach ((TT _, string path) in itemsToDelete)
             {
                 Debug.Log("Deleting " + path);
                 AssetDatabase.DeleteAsset(path);
@@ -86,10 +85,10 @@ namespace FT.Data
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
-            foreach ((T _, string path) in itemsToAdd)
-                targets.Add(AssetDatabase.LoadAssetAtPath<T>(path));
+            foreach ((TT _, string path) in itemsToAdd)
+                targets.Add(AssetDatabase.LoadAssetAtPath<TT>(path));
             
-            foreach ((T item, string _) in itemsToDelete)
+            foreach ((TT item, string _) in itemsToDelete)
                 targets.Remove(item);
         }
 #endif
