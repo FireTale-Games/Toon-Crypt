@@ -10,7 +10,7 @@ namespace FT.Ability.States
         public override void Execute(List<Data.Ability> abilities)
         {
             StatsController.ApplyDamage(AbilityInfo.Damage);
-            Collider[] hits = Physics.OverlapSphere(transform.position, 5.0f);
+            Collider[] hits = Physics.OverlapSphere(transform.position, 2.0f);
             foreach (Collider col in hits)
             {
                 if (col.transform == StatsController.transform || col.transform.TryGetComponent(out IHit hit) == false)

@@ -42,10 +42,10 @@ namespace FT.TD
                 _abilityStates.Add(abilityState);
                 _onAbilityRegister.Action?.Invoke(abilityState);
 
-                if (ability.SpreadType == AbilitySpreadType.SINGLE_TARGET)
+                if (ability.SpreadType == AbilitySpreadType.MULTIPLE_TARGETS)
                     abilityState.Execute();
                 else
-                    abilityState.Execute(abilities.Where(value => value.SpreadType == AbilitySpreadType.SINGLE_TARGET).ToList());
+                    abilityState.Execute(abilities.Where(value => value.SpreadType == AbilitySpreadType.MULTIPLE_TARGETS).ToList());
             }
         }
 
