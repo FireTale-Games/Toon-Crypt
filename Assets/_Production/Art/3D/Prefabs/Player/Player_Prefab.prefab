@@ -53,13 +53,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shootDelay: 0.3
-  _projectile: {fileID: 6933081131873257325, guid: 6443070519f9df144b526ff49f43f00f,
+  _projectile: {fileID: -1196814631149702362, guid: 4a2b43dc1dcded243880f8f1591a8642,
     type: 3}
   _spawnPoint: {fileID: 4261930988654408766}
   _abilities:
-  - {fileID: 11400000, guid: 5f7de6ecb6b53474ba4670925b6c1b88, type: 2}
-  - {fileID: 11400000, guid: b56efc9dfc0c3cb43bae9430297ea02b, type: 2}
-  - {fileID: 11400000, guid: c14bc57920e3e0846a7aa85dff394780, type: 2}
+  - {fileID: 11400000, guid: 92f2d692e604da346b7b19f33e6c1371, type: 2}
+  - {fileID: 11400000, guid: d198f6721b126ee45aa3f03171061184, type: 2}
+  - {fileID: 11400000, guid: 58e230ea4182bea4cba972b23c357691, type: 2}
 --- !u!114 &2722569595374299511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,7 +240,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 247
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -280,7 +280,7 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 4294967295
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
