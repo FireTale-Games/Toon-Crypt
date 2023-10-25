@@ -4,5 +4,8 @@ namespace FT.Inventory
     {
         public void ItemLeftClicked(T t);
         public void ItemStopDrag(T t);
+        public void MouseEnterFrame(T t);
+        public void MouseExitFrame();
+        
     }
 }
