@@ -19,6 +19,8 @@ namespace FT.Data
         public static T Get(int id) => Database._items.Find(item => item.Id == id);
         public static TT Get<TT>(int id) where TT : T => Get(id) as TT;
         
+        public static T GetRandomItem() => Database._items.OrderBy(_ => new System.Random().Next()).FirstOrDefault();
+        
 #if UNITY_EDITOR
         public string GetDownloadUrl(Type type) => 
             $"https://docs.google.com/spreadsheets/d/{_spreadsheetId}/gviz/tq?tqx=out:csv&sheet={type.Name}";

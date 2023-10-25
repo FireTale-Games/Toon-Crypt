@@ -18,6 +18,8 @@ namespace FT.TD
 
         private void OnInput(InputData inputData)
         {
+            _state.IsInventory.Set(inputData.isInventory);
+            _state.IsEscape.Set(inputData.isEscape);
             _state.IsShooting.Set(inputData.isShooting);
             _physicsController.SetMoveAndMouseValues(inputData.moveDirection, inputData.mousePosition);
         }

@@ -7,5 +7,7 @@ namespace FT.Inputs
         public Vector2 moveDirection;
         public Vector2 mousePosition;
         public bool isShooting;
+        public bool isInventory;
+        public bool isEscape;
     }
 }
