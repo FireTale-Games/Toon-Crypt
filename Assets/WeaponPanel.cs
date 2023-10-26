@@ -44,9 +44,8 @@ namespace FT.Inventory
             _weaponRectTransform.sizeDelta = new Vector2(74 + (_weaponRectTransform.childCount - 1) * 67, _weaponRectTransform.sizeDelta.y);
         }
 
-        private int GetSlotNumber(Rarity weaponRarity)
-        {
-            return weaponRarity switch
+        private int GetSlotNumber(Rarity weaponRarity) =>
+            weaponRarity switch
             {
                 Rarity.Common => 1,
                 Rarity.Uncommon => 2,
@@ -55,6 +54,5 @@ namespace FT.Inventory
                 Rarity.Legendary => 5,
                 _ => 0
             };
-        }
     }
 }

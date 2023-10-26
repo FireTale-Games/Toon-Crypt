@@ -13,8 +13,8 @@ namespace FT.Shooting
         [SerializeField] private float _shootDelay;
         [SerializeField] private Projectile _projectile;
         [SerializeField] private Transform _spawnPoint;
-        [SerializeField] private List<Data.Ability> _abilities;
-
+        
+        private readonly HashSet<Data.Ability> _abilities = new();
         private float _nextShootTime;
         
         private void Awake()
@@ -24,22 +24,18 @@ namespace FT.Shooting
             character.State.AddSpell.AddObserver(AddSpell);
         }
 
-        private void AddSpell((int id, bool isAdd) spell)
+        private void AddSpell(AbilityStruct spell)
         {
-            Data.Ability ability = ItemDatabase.Get<Data.Ability>(spell.id);
-
+            Data.Ability ability = ItemDatabase.Get<Data.Ability>(spell._id);
             if (ability == null)
                 return;
             
-            switch (spell.isAdd)
-            {
-                case true when !_abilities.Contains(ability):
-                    _abilities.Add(ability);
-                    break;
-                case false when _abilities.Contains(ability):
-                    _abilities.Remove(ability);
-                    break;
-            }
+            if (spell._isAdd)
+                _abilities.Add(ability);
+            else
+                _abilities.Remove(ability);
+            
+            Debug.Log(_abilities.Count);
         }
 
         private void ToggleShooting(bool value)

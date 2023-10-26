@@ -1,3 +1,4 @@
+using FT.Data;
 using FT.Inventory;
 using FT.TD;
 using UnityEngine;
@@ -10,17 +11,20 @@ public class AbilityInventoryItemUi : InventoryItemUi
         _state = GameObject.FindWithTag("Player").GetComponent<Character>().State;
 
     private void OnDestroy() => 
-        _state.AddSpell.Set((Id, false));
+        _state.AddSpell.Set(new AbilityStruct(Id, false));
 
     public override void InitializeItem(int id)
     {
-        base.InitializeItem(id);
-        _state.AddSpell.Set((Id, true));
-    }
+        if (id == -1)
+            DeinitializeItem();
+            
+        Item item = ItemDatabase.Get(id);
+        if (id == -1)
+            return;
 
-    protected override void DeinitializeItem()
-    {
-        _state.AddSpell.Set((Id, false));
-        base.DeinitializeItem();
+        Id = item.Id;
+        _itemImage.sprite = item.Sprite;
+        _itemImage.color = new Color(1, 1, 1, 1);
+        _state.AddSpell.Set(new AbilityStruct(Id, true));
     }
 }

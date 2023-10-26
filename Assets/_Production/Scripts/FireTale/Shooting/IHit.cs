@@ -4,6 +4,6 @@ namespace FT.Shooting
 {
     public interface IHit
     {
-        public void RegisterAbilityStates(List<Data.Ability> abilities);
+        public void RegisterAbilityStates(HashSet<Data.Ability> abilities);
     }
 }

@@ -24,7 +24,7 @@ namespace FT.TD
         
         private readonly List<IAbilityState> _abilityStates = new();
 
-        public void RegisterAbilityStates(List<Data.Ability> abilities)
+        public void RegisterAbilityStates(HashSet<Data.Ability> abilities)
         {
             foreach (Data.Ability ability in abilities)
             {
@@ -45,7 +45,7 @@ namespace FT.TD
                 if (ability.SpreadType == AbilitySpreadType.MULTIPLE_TARGETS)
                     abilityState.Execute();
                 else
-                    abilityState.Execute(abilities.Where(value => value.SpreadType == AbilitySpreadType.MULTIPLE_TARGETS).ToList());
+                    abilityState.Execute(abilities.Where(value => value.SpreadType == AbilitySpreadType.MULTIPLE_TARGETS).ToHashSet());
             }
         }
 
