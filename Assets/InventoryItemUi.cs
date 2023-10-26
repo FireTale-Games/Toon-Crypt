@@ -7,10 +7,10 @@ namespace FT.Inventory
 {
     public class InventoryItemUi : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IItem
     {
-        [SerializeField] private Image _itemImage;
+        [SerializeField] protected Image _itemImage;
         public int Id { get; private set; } = -1;
         public IBasePanel BasePanel => GetComponentInParent<IBasePanel>();
-        [field: SerializeField] public SlotType SlotType { get; private set; } = SlotType.All;
+        [field: SerializeField] public SlotType SlotType { get; protected set; } = SlotType.All;
 
         private IItemActionHandler<IItem> ActionHandler => 
             GetComponentInParent<IItemActionHandler<IItem>>();
@@ -27,7 +27,7 @@ namespace FT.Inventory
         public void OnPointerExit(PointerEventData eventData) =>
             ActionHandler?.MouseExitFrame();
         
-        public void InitializeItem(int id)
+        public virtual void InitializeItem(int id)
         {
             if (id == -1)
             {
@@ -42,7 +42,7 @@ namespace FT.Inventory
             _itemImage.color = new Color(1, 1, 1, 1);
         }
 
-        private void DeinitializeItem()
+        protected virtual void DeinitializeItem()
         {
             Id = -1;
 

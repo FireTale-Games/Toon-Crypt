@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FT.Data;
 using FT.TD;
 using FT.Tools.Observers;
 using UnityEngine;
@@ -16,7 +17,30 @@ namespace FT.Shooting
 
         private float _nextShootTime;
         
-        private void Awake() => GetComponent<Character>()?.State.IsShooting.AddObserver(ToggleShooting);
+        private void Awake()
+        {
+            Character character = GetComponent<Character>();
+            character.State.IsShooting.AddObserver(ToggleShooting);
+            character.State.AddSpell.AddObserver(AddSpell);
+        }
+
+        private void AddSpell((int id, bool isAdd) spell)
+        {
+            Data.Ability ability = ItemDatabase.Get<Data.Ability>(spell.id);
+
+            if (ability == null)
+                return;
+            
+            switch (spell.isAdd)
+            {
+                case true when !_abilities.Contains(ability):
+                    _abilities.Add(ability);
+                    break;
+                case false when _abilities.Contains(ability):
+                    _abilities.Remove(ability);
+                    break;
+            }
+        }
 
         private void ToggleShooting(bool value)
         {

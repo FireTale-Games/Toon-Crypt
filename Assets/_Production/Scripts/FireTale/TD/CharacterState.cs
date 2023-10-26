@@ -7,5 +7,6 @@ namespace FT.TD
         public ObservableProperty<bool> IsShooting { get; } = new();
         public ObservableProperty<bool> IsInventory { get; } = new();
         public ObservableProperty<bool> IsEscape { get; } = new();
+        public ObservableProperty<(int id, bool isAdd)> AddSpell { get; } = new();
     }
 }

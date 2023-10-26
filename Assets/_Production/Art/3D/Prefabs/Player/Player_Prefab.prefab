@@ -56,10 +56,7 @@ MonoBehaviour:
   _projectile: {fileID: 6933081131873257325, guid: 6443070519f9df144b526ff49f43f00f,
     type: 3}
   _spawnPoint: {fileID: 4261930988654408766}
-  _abilities:
-  - {fileID: 11400000, guid: 92f2d692e604da346b7b19f33e6c1371, type: 2}
-  - {fileID: 11400000, guid: 58e230ea4182bea4cba972b23c357691, type: 2}
-  - {fileID: 11400000, guid: d198f6721b126ee45aa3f03171061184, type: 2}
+  _abilities: []
 --- !u!114 &2722569595374299511
 MonoBehaviour:
   m_ObjectHideFlags: 0
