@@ -9,10 +9,10 @@ namespace FT.Inventory
     {
         [SerializeField] private Image _itemImage;
         public int Id { get; private set; } = -1;
-        public Vector2 Position => transform.position;
+        [field: SerializeField] public SlotType SlotType { get; private set; } = SlotType.All;
 
-        private IInventory<IItem> ActionHandler => 
-            GetComponentInParent<IInventory<IItem>>();
+        private IItemActionHandler<IItem> ActionHandler => 
+            GetComponentInParent<IItemActionHandler<IItem>>();
 
         public void OnPointerDown(PointerEventData eventData) => 
             ActionHandler?.ItemLeftClicked(this);

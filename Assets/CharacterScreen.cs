@@ -8,10 +8,12 @@ using UnityEngine.UI;
 
 namespace FT.Inventory
 {
-    public class InventoryScreen : MonoBehaviour, IInventory<IItem>
+    public class CharacterScreen : MonoBehaviour, IItemActionHandler<IItem>
     {
         [SerializeField] private Image _itemUi;
+        [SerializeField] private InventoryItemUi _abilityUi;
         [SerializeField] private Transform _inventoryPanel;
+        [SerializeField] private RectTransform _weaponPanel;
         [SerializeField] private DescriptionPanelUi _descriptionPanel;
         [SerializeField] private Button _addItemButton;
         [SerializeField] private Button _removeItemButton;
@@ -23,7 +25,7 @@ namespace FT.Inventory
         
         private void Awake()
         {
-            _graphicRaycaster = GetComponent<GraphicRaycaster>();
+            _graphicRaycaster = GetComponentInParent<GraphicRaycaster>();
             _addItemButton.onClick.AddListener(() =>
             {
                 foreach (IItem itemUi in _inventoryPanel.GetComponentsInChildren<IItem>())
@@ -70,16 +72,35 @@ namespace FT.Inventory
                 isDragging = false;
                 return;
             }
-            
-            IItem hitItem = results[0].gameObject.GetComponentInParent<IItem>();
-            if (hitItem == null)
-                return;
 
-            _descriptionPanel.DisplayItem(ItemDatabase.Get<Data.Ability>(_currentItem.Id));
-            _descriptionPanel.gameObject.SetActive(true);
+            Item dataItem = ItemDatabase.Get(_currentItem.Id);
+            IItem hitItem = results[0].gameObject.GetComponentInParent<IItem>();
+            if (hitItem == null || (hitItem.SlotType != SlotType.All && hitItem.SlotType.ToString() != dataItem.GetType().Name))
+            {
+                _currentItem.ToggleVisibility(true);
+                Destroy(_dragItem.gameObject);
+                StopAllCoroutines();
+                isDragging = false;
+                return;
+            }
+
+            _descriptionPanel.DisplayItem(dataItem);
             
             int Id = hitItem.Id;
             hitItem.InitializeItem(item.Id);
+
+            if (hitItem.SlotType == SlotType.Weapon)
+            {
+                for (int i = _weaponPanel.childCount - 1; i >= 1; i--)
+                    Destroy(_weaponPanel.GetChild(i).gameObject);
+
+                for (int i = 0; i < 3; i++)
+                {
+                    Instantiate(_abilityUi, _weaponPanel);
+                }
+                
+                _weaponPanel.sizeDelta = new Vector2(20, _weaponPanel.sizeDelta.y);
+            }
             
             if (Id != -1) item.InitializeItem(Id);
             else item.DeinitializeItem();
@@ -95,12 +116,11 @@ namespace FT.Inventory
                 return;
             
             _descriptionPanel.DisplayItem(ItemDatabase.Get<Data.Ability>(item.Id));
-            _descriptionPanel.gameObject.SetActive(true);
         }
 
         public void MouseExitFrame()
         {
-            _descriptionPanel.gameObject.SetActive(false);
+            _descriptionPanel.ToggleVisibility(false);
         }
 
         private IEnumerator ItemDrag(IItem item)
