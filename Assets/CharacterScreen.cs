@@ -91,15 +91,21 @@ namespace FT.Inventory
 
             if (hitItem.SlotType == SlotType.Weapon)
             {
-                for (int i = _weaponPanel.childCount - 1; i >= 1; i--)
+                for (int i = _weaponPanel.childCount - 1; i >= 2; i--)
                     Destroy(_weaponPanel.GetChild(i).gameObject);
 
                 for (int i = 0; i < 3; i++)
-                {
                     Instantiate(_abilityUi, _weaponPanel);
-                }
                 
-                _weaponPanel.sizeDelta = new Vector2(20, _weaponPanel.sizeDelta.y);
+                _weaponPanel.sizeDelta = new Vector2(74 + (_weaponPanel.childCount - 1) * 67, _weaponPanel.sizeDelta.y);
+            }
+
+            if (_currentItem.SlotType == SlotType.Weapon)
+            {
+                for (int i = _weaponPanel.childCount - 1; i >= 2; i--)
+                    DestroyImmediate(_weaponPanel.GetChild(i).gameObject);
+
+                _weaponPanel.sizeDelta = new Vector2(74 + (_weaponPanel.childCount - 1) * 67, _weaponPanel.sizeDelta.y);
             }
             
             if (Id != -1) item.InitializeItem(Id);
@@ -115,7 +121,7 @@ namespace FT.Inventory
             if (item.Id == -1 || isDragging)
                 return;
             
-            _descriptionPanel.DisplayItem(ItemDatabase.Get<Data.Ability>(item.Id));
+            _descriptionPanel.DisplayItem(ItemDatabase.Get(item.Id));
         }
 
         public void MouseExitFrame()

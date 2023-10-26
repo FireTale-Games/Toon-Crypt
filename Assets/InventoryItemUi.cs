@@ -8,6 +8,7 @@ namespace FT.Inventory
     public class InventoryItemUi : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IItem
     {
         [SerializeField] private Image _itemImage;
+        [SerializeField] private Image _itemBackground;
         public int Id { get; private set; } = -1;
         [field: SerializeField] public SlotType SlotType { get; private set; } = SlotType.All;
 
@@ -29,6 +30,9 @@ namespace FT.Inventory
         public void InitializeItem(int id)
         {
             Item item = ItemDatabase.Get(id);
+            _itemBackground.sprite = item is Weapon weapon ? Resources.Load<Sprite>($"Rarity/Item{weapon.Rarity}_Sprite") 
+                : Resources.Load<Sprite>("Rarity/ItemBackground_Sprite");
+                
             
             Id = item.Id;
             _itemImage.sprite = item.Sprite;
@@ -40,6 +44,7 @@ namespace FT.Inventory
             Id = -1;
 
             _itemImage.sprite = null;
+            _itemBackground.sprite = Resources.Load<Sprite>("Rarity/ItemBackground_Sprite");
             _itemImage.color = new Color(1, 1, 1, 0);
         }
 

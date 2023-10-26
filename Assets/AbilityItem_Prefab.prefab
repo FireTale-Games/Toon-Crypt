@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemImage: {fileID: 199797935189356895}
+  _itemBackground: {fileID: 797782682673448777}
   <SlotType>k__BackingField: 2
 --- !u!225 &6594896381917071951
 CanvasGroup:
