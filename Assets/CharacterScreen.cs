@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using FT.Data;
+using FT.Tools.Extensions;
 using FT.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,7 +18,6 @@ namespace FT.Inventory
         [SerializeField] private DescriptionPanelUi _descriptionPanel;
         [SerializeField] private Button _addItemButton;
         [SerializeField] private Button _removeItemButton;
-        private GraphicRaycaster _graphicRaycaster;
         
         private IItem _currentItem;
         private bool isDragging;
@@ -25,7 +25,6 @@ namespace FT.Inventory
         
         private void Awake()
         {
-            _graphicRaycaster = GetComponentInParent<GraphicRaycaster>();
             _addItemButton.onClick.AddListener(() =>
             {
                 foreach (IItem itemUi in _inventoryPanel.GetComponentsInChildren<IItem>())
@@ -42,7 +41,7 @@ namespace FT.Inventory
             
             _removeItemButton.onClick.AddListener(() => 
             { 
-                _currentItem?.DeinitializeItem();
+                _currentItem?.InitializeItem();
                 _currentItem = null;
             });
         }
@@ -58,13 +57,12 @@ namespace FT.Inventory
                 return;
             }
             
-            PointerEventData pointerEventData = new(EventSystem.current);
-            pointerEventData.position = Input.mousePosition;
-
             List<RaycastResult> results = new();
-            _graphicRaycaster.Raycast(pointerEventData, results);
-
-            if (results.Count <= 0)
+            results.GetHitResults(Input.mousePosition);
+            Debug.Log(item.SlotType);
+            Debug.Log(_currentItem.GetType());
+            IItem hitItem = results.Count > 0 ? results[0].gameObject.GetComponentInParent<IItem>() : null;
+            if (hitItem?.BasePanel == null || !hitItem.BasePanel.CanPlaceItem(item.SlotType, _currentItem.GetType()))
             {
                 _currentItem.ToggleVisibility(true);
                 Destroy(_dragItem.gameObject);
@@ -73,44 +71,13 @@ namespace FT.Inventory
                 return;
             }
 
-            Item dataItem = ItemDatabase.Get(_currentItem.Id);
-            IItem hitItem = results[0].gameObject.GetComponentInParent<IItem>();
-            if (hitItem == null || (hitItem.SlotType != SlotType.All && hitItem.SlotType.ToString() != dataItem.GetType().Name))
-            {
-                _currentItem.ToggleVisibility(true);
-                Destroy(_dragItem.gameObject);
-                StopAllCoroutines();
-                isDragging = false;
-                return;
-            }
-
-            _descriptionPanel.DisplayItem(dataItem);
+            _descriptionPanel.DisplayItem(ItemDatabase.Get(_currentItem.Id));
             
             int Id = hitItem.Id;
             hitItem.InitializeItem(item.Id);
+            item.InitializeItem(Id);
 
-            if (hitItem.SlotType == SlotType.Weapon)
-            {
-                for (int i = _weaponPanel.childCount - 1; i >= 2; i--)
-                    Destroy(_weaponPanel.GetChild(i).gameObject);
-
-                for (int i = 0; i < 3; i++)
-                    Instantiate(_abilityUi, _weaponPanel);
-                
-                _weaponPanel.sizeDelta = new Vector2(74 + (_weaponPanel.childCount - 1) * 67, _weaponPanel.sizeDelta.y);
-            }
-
-            if (_currentItem.SlotType == SlotType.Weapon)
-            {
-                for (int i = _weaponPanel.childCount - 1; i >= 2; i--)
-                    DestroyImmediate(_weaponPanel.GetChild(i).gameObject);
-
-                _weaponPanel.sizeDelta = new Vector2(74 + (_weaponPanel.childCount - 1) * 67, _weaponPanel.sizeDelta.y);
-            }
-            
-            if (Id != -1) item.InitializeItem(Id);
-            else item.DeinitializeItem();
-            
+             
             Destroy(_dragItem.gameObject);
             StopAllCoroutines();
             isDragging = false;
@@ -155,3 +122,24 @@ namespace FT.Inventory
         }
     }
 }
+
+//(hitItem.SlotType != SlotType.All && hitItem.SlotType.ToString() != dataItem.GetType().Name)
+
+/* if (hitItem.SlotType == SlotType.Weapon)
+{
+    for (int i = _weaponPanel.childCount - 1; i >= 2; i--)
+        Destroy(_weaponPanel.GetChild(i).gameObject);
+
+    for (int i = 0; i < 3; i++)
+        Instantiate(_abilityUi, _weaponPanel);
+                
+    _weaponPanel.sizeDelta = new Vector2(74 + (_weaponPanel.childCount - 1) * 67, _weaponPanel.sizeDelta.y);
+}
+
+if (_currentItem.SlotType == SlotType.Weapon)
+{
+    for (int i = _weaponPanel.childCount - 1; i >= 2; i--)
+        DestroyImmediate(_weaponPanel.GetChild(i).gameObject);
+
+    _weaponPanel.sizeDelta = new Vector2(74 + (_weaponPanel.childCount - 1) * 67, _weaponPanel.sizeDelta.y);
+} */

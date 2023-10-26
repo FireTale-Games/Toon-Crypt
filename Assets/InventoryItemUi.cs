@@ -9,6 +9,7 @@ namespace FT.Inventory
     {
         [SerializeField] private Image _itemImage;
         public int Id { get; private set; } = -1;
+        public IBasePanel BasePanel => GetComponentInParent<IBasePanel>();
         [field: SerializeField] public SlotType SlotType { get; private set; } = SlotType.All;
 
         private IItemActionHandler<IItem> ActionHandler => 
@@ -28,6 +29,12 @@ namespace FT.Inventory
         
         public void InitializeItem(int id)
         {
+            if (id == -1)
+            {
+                DeinitializeItem();
+                return;
+            }
+            
             Item item = ItemDatabase.Get(id);
 
             Id = item.Id;
@@ -35,7 +42,7 @@ namespace FT.Inventory
             _itemImage.color = new Color(1, 1, 1, 1);
         }
 
-        public void DeinitializeItem()
+        private void DeinitializeItem()
         {
             Id = -1;
 
