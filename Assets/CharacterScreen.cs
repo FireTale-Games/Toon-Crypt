@@ -72,6 +72,9 @@ namespace FT.Inventory
             hitItem.InitializeItem(_currentItem.Id);
             _currentItem.InitializeItem(Id);
             
+            hitItem.BasePanel.Initialize(tempItem);
+            _currentItem.BasePanel.Initialize(null);
+            
             Destroy(_dragItem.gameObject);
             StopAllCoroutines();
             isDragging = false;

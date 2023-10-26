@@ -6,6 +6,5 @@ namespace FT.Inventory
         public void ItemStopDrag();
         public void MouseEnterFrame(T t);
         public void MouseExitFrame();
-        
     }
 }
