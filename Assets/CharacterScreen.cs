@@ -12,9 +12,7 @@ namespace FT.Inventory
     public class CharacterScreen : MonoBehaviour, IItemActionHandler<IItem>
     {
         [SerializeField] private Image _itemUi;
-        [SerializeField] private InventoryItemUi _abilityUi;
         [SerializeField] private Transform _inventoryPanel;
-        [SerializeField] private RectTransform _weaponPanel;
         [SerializeField] private DescriptionPanelUi _descriptionPanel;
         [SerializeField] private Button _addItemButton;
         [SerializeField] private Button _removeItemButton;
@@ -49,7 +47,7 @@ namespace FT.Inventory
         public void ItemLeftClicked(IItem item) =>
             StartCoroutine(ItemDrag(item));
 
-        public void ItemStopDrag(IItem item)
+        public void ItemStopDrag()
         {
             if (!_dragItem)
             {
@@ -59,10 +57,9 @@ namespace FT.Inventory
             
             List<RaycastResult> results = new();
             results.GetHitResults(Input.mousePosition);
-            Debug.Log(item.SlotType);
-            Debug.Log(_currentItem.GetType());
             IItem hitItem = results.Count > 0 ? results[0].gameObject.GetComponentInParent<IItem>() : null;
-            if (hitItem?.BasePanel == null || !hitItem.BasePanel.CanPlaceItem(item.SlotType, _currentItem.GetType()))
+            Item tempItem = ItemDatabase.Get(_currentItem.Id);
+            if (hitItem?.BasePanel == null || !hitItem.BasePanel.CanPlaceItem(hitItem.SlotType, tempItem.GetType()))
             {
                 _currentItem.ToggleVisibility(true);
                 Destroy(_dragItem.gameObject);
@@ -70,17 +67,16 @@ namespace FT.Inventory
                 isDragging = false;
                 return;
             }
-
-            _descriptionPanel.DisplayItem(ItemDatabase.Get(_currentItem.Id));
             
             int Id = hitItem.Id;
-            hitItem.InitializeItem(item.Id);
-            item.InitializeItem(Id);
-
-             
+            hitItem.InitializeItem(_currentItem.Id);
+            _currentItem.InitializeItem(Id);
+            
             Destroy(_dragItem.gameObject);
             StopAllCoroutines();
             isDragging = false;
+            
+            _descriptionPanel.DisplayItem(tempItem);
         }
 
         public void MouseEnterFrame(IItem item)
@@ -122,24 +118,3 @@ namespace FT.Inventory
         }
     }
 }
-
-//(hitItem.SlotType != SlotType.All && hitItem.SlotType.ToString() != dataItem.GetType().Name)
-
-/* if (hitItem.SlotType == SlotType.Weapon)
-{
-    for (int i = _weaponPanel.childCount - 1; i >= 2; i--)
-        Destroy(_weaponPanel.GetChild(i).gameObject);
-
-    for (int i = 0; i < 3; i++)
-        Instantiate(_abilityUi, _weaponPanel);
-                
-    _weaponPanel.sizeDelta = new Vector2(74 + (_weaponPanel.childCount - 1) * 67, _weaponPanel.sizeDelta.y);
-}
-
-if (_currentItem.SlotType == SlotType.Weapon)
-{
-    for (int i = _weaponPanel.childCount - 1; i >= 2; i--)
-        DestroyImmediate(_weaponPanel.GetChild(i).gameObject);
-
-    _weaponPanel.sizeDelta = new Vector2(74 + (_weaponPanel.childCount - 1) * 67, _weaponPanel.sizeDelta.y);
-} */

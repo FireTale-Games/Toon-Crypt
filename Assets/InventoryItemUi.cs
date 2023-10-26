@@ -19,7 +19,7 @@ namespace FT.Inventory
             ActionHandler?.ItemLeftClicked(this);
 
         public void OnPointerUp(PointerEventData eventData) => 
-            ActionHandler?.ItemStopDrag(this);
+            ActionHandler?.ItemStopDrag();
         
         public void OnPointerEnter(PointerEventData eventData) =>
             ActionHandler?.MouseEnterFrame(this);
