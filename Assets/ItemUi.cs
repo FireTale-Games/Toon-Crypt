@@ -51,7 +51,7 @@ namespace FT.UI
             ToggleVisibility(false);
         }
 
-        private void ToggleVisibility(bool isVisible)
+        public void ToggleVisibility(bool isVisible)
         {
             _itemRarityImage.color = new Color(1, 1, 1, isVisible ? 1 : 0);
             _itemImage.color = new Color(1, 1, 1, isVisible ? 1 : 0);

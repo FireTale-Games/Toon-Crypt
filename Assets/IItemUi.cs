@@ -26,5 +26,6 @@ namespace FT.UI
         public InventoryItem InventoryItem { get; }
         public void Initialize(int id);
         public void DeinitializeItem();
+        public void ToggleVisibility(bool isVisible);
     }
 }
