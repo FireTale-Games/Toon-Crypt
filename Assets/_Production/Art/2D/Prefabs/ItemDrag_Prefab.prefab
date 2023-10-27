@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 7804461693899407456}
   - component: {fileID: 3565627068020266661}
   - component: {fileID: 4418903461440039062}
-  m_Layer: 0
+  - component: {fileID: 952287961604650358}
+  m_Layer: 5
   m_Name: ItemDrag_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,3 +76,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &952287961604650358
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7072213466380452998}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0

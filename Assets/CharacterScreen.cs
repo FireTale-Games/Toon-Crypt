@@ -1,5 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
+using FT.Tools.Extensions;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace FT.UI
@@ -8,16 +11,38 @@ namespace FT.UI
     {
         [SerializeField] private DescriptionPanelUi _descriptionPanel;
         [SerializeField] private Image _dragImage; 
-        
-        public IItemUi CurrentItem { get; private set; }
+
         private bool isDragging;
 
         public void OnPointerDownAction(IItemUi item) => 
             StartCoroutine(OnItemClick(item));
 
-        public void OnPointerUpAction()
+        public void OnPointerUpAction(IItemUi item, IBasePanel selectedPanel)
         {
-           isDragging = false;
+            if (!isDragging)
+                return;
+            
+            isDragging = false;
+            List<RaycastResult> results = new();
+            results.RaycastHits(Input.mousePosition);
+            IItemUi hitItem = results.Count > 0 ? results[0].gameObject.GetComponentInParent<IItemUi>() : null;
+            IBasePanel hitPanel = (hitItem as ItemUi)?.transform.GetComponentInParent<IBasePanel>();
+            if (hitItem == null || !selectedPanel.CanSwapItem(hitItem.InventoryItem._itemType, item.InventoryItem.item.GetType()) || 
+                !hitPanel!.CanSwapItem(hitItem.InventoryItem._itemType, item.InventoryItem.item.GetType()))
+            {
+                item.ToggleVisibility(true);
+                return;
+            }
+            
+            if (item.InventoryItem._id != -1 && hitItem.InventoryItem._id != -1)
+            {
+                hitPanel.SwapItems(item, hitItem);
+                return;
+            }
+            
+            int id = item.InventoryItem._id;
+            selectedPanel.DeinitializeItem(item);
+            hitPanel.InitializeItem(hitItem, id);
         }
 
         public void OnPointerEnterAction(IItemUi item)
@@ -36,7 +61,9 @@ namespace FT.UI
             if (item.InventoryItem._id == -1)
                 yield break;
             
-            CurrentItem = item;
+            //Temp
+            GetComponentInChildren<InventoryPanel>().currentItem = item;
+            
             Vector2 clickPosition = Input.mousePosition;
             while (Vector2.Distance(clickPosition, Input.mousePosition) > 20)
                 yield return null;
@@ -52,7 +79,6 @@ namespace FT.UI
             }
             
             Destroy(dragImage.gameObject);
-            item.ToggleVisibility(true);
         }
     }
 }

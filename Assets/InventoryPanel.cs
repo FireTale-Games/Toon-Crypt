@@ -7,7 +7,9 @@ namespace FT.UI
     public class InventoryPanel : BasePanel
     {
         [SerializeField] private Button _addItem; 
-        [SerializeField] private Button _removeItem; 
+        [SerializeField] private Button _removeItem;
+
+        public IItemUi currentItem;
         
         private void Awake()
         {
@@ -24,7 +26,7 @@ namespace FT.UI
                 }
             });
             
-            _removeItem.onClick.AddListener(() => GetComponentInParent<CharacterScreen>()?.CurrentItem?.DeinitializeItem());
+            _removeItem.onClick.AddListener(() => currentItem?.DeinitializeItem());
         }
     }
 }

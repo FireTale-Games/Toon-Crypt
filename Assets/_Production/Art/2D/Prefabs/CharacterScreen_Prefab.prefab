@@ -669,6 +669,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8085672937087251095}
+  - component: {fileID: 133154944861413825}
   - component: {fileID: 6248764998134260765}
   m_Layer: 5
   m_Name: WeaponPanel
@@ -698,6 +699,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -141}
   m_SizeDelta: {x: 610, y: 74}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &133154944861413825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4996847808344865617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69824dc3d5672444e9b1f7abb005f554, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6248764998134260765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2226,6 +2239,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5827681884594251755, guid: cdeae013366c347429c2c8ab15da9608,
+        type: 3}
+      propertyPath: _itemType
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4706,6 +4724,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5827681884594251755, guid: cdeae013366c347429c2c8ab15da9608,
+        type: 3}
+      propertyPath: _itemType
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
