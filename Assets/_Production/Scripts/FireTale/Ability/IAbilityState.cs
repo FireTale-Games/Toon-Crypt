@@ -10,7 +10,7 @@ namespace FT.Ability
         public void Initialize(int id);
         public void ResetDuration();
         public void Execute();
-        public void Execute(List<Data.Ability> abilities);
+        public void Execute(HashSet<Data.Ability> abilities);
         public IObservableAction<Action<IAbilityState>> OnDispose { get; }
     }
 }

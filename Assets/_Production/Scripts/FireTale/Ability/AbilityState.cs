@@ -23,6 +23,6 @@ namespace FT.Ability
         public void Initialize(int id) => Id = id;
         public virtual void ResetDuration() { }
         public virtual void Execute() { }
-        public virtual void Execute(List<Data.Ability> abilities) { }
+        public virtual void Execute(HashSet<Data.Ability> abilities) { }
     }
 }

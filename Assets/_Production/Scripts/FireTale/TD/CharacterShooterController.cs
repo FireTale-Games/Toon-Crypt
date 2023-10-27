@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FT.Data;
 using FT.TD;
 using FT.Tools.Observers;
 using UnityEngine;
@@ -12,11 +13,28 @@ namespace FT.Shooting
         [SerializeField] private float _shootDelay;
         [SerializeField] private Projectile _projectile;
         [SerializeField] private Transform _spawnPoint;
-        [SerializeField] private List<Data.Ability> _abilities;
-
+        
+        private readonly HashSet<Data.Ability> _abilities = new();
         private float _nextShootTime;
         
-        private void Awake() => GetComponent<Character>()?.State.IsShooting.AddObserver(ToggleShooting);
+        private void Awake()
+        {
+            Character character = GetComponent<Character>();
+            character.State.IsShooting.AddObserver(ToggleShooting);
+            character.State.AddSpell.AddObserver(AddSpell);
+        }
+
+        private void AddSpell(AbilityStruct spell)
+        {
+            Data.Ability ability = ItemDatabase.Get<Data.Ability>(spell._id);
+            if (ability == null)
+                return;
+            
+            if (spell._isAdd)
+                _abilities.Add(ability);
+            else
+                _abilities.Remove(ability);
+        }
 
         private void ToggleShooting(bool value)
         {

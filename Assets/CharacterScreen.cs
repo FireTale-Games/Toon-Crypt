@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using FT.Data;
+using FT.Tools.Extensions;
 using FT.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,13 +12,10 @@ namespace FT.Inventory
     public class CharacterScreen : MonoBehaviour, IItemActionHandler<IItem>
     {
         [SerializeField] private Image _itemUi;
-        [SerializeField] private InventoryItemUi _abilityUi;
         [SerializeField] private Transform _inventoryPanel;
-        [SerializeField] private RectTransform _weaponPanel;
         [SerializeField] private DescriptionPanelUi _descriptionPanel;
         [SerializeField] private Button _addItemButton;
         [SerializeField] private Button _removeItemButton;
-        private GraphicRaycaster _graphicRaycaster;
         
         private IItem _currentItem;
         private bool isDragging;
@@ -25,7 +23,6 @@ namespace FT.Inventory
         
         private void Awake()
         {
-            _graphicRaycaster = GetComponentInParent<GraphicRaycaster>();
             _addItemButton.onClick.AddListener(() =>
             {
                 foreach (IItem itemUi in _inventoryPanel.GetComponentsInChildren<IItem>())
@@ -50,72 +47,6 @@ namespace FT.Inventory
         public void ItemLeftClicked(IItem item) =>
             StartCoroutine(ItemDrag(item));
 
-        public void ItemStopDrag(IItem item)
-        {
-            if (!_dragItem)
-            {
-                StopAllCoroutines();
-                return;
-            }
-            
-            PointerEventData pointerEventData = new(EventSystem.current);
-            pointerEventData.position = Input.mousePosition;
-
-            List<RaycastResult> results = new();
-            _graphicRaycaster.Raycast(pointerEventData, results);
-
-            if (results.Count <= 0)
-            {
-                _currentItem.ToggleVisibility(true);
-                Destroy(_dragItem.gameObject);
-                StopAllCoroutines();
-                isDragging = false;
-                return;
-            }
-
-            Item dataItem = ItemDatabase.Get(_currentItem.Id);
-            IItem hitItem = results[0].gameObject.GetComponentInParent<IItem>();
-            if (hitItem == null || (hitItem.SlotType != SlotType.All && hitItem.SlotType.ToString() != dataItem.GetType().Name))
-            {
-                _currentItem.ToggleVisibility(true);
-                Destroy(_dragItem.gameObject);
-                StopAllCoroutines();
-                isDragging = false;
-                return;
-            }
-
-            _descriptionPanel.DisplayItem(dataItem);
-            
-            int Id = hitItem.Id;
-            hitItem.InitializeItem(item.Id);
-
-            if (hitItem.SlotType == SlotType.Weapon)
-            {
-                for (int i = _weaponPanel.childCount - 1; i >= 2; i--)
-                    Destroy(_weaponPanel.GetChild(i).gameObject);
-
-                for (int i = 0; i < 3; i++)
-                    Instantiate(_abilityUi, _weaponPanel);
-                
-                _weaponPanel.sizeDelta = new Vector2(74 + (_weaponPanel.childCount - 1) * 67, _weaponPanel.sizeDelta.y);
-            }
-
-            if (_currentItem.SlotType == SlotType.Weapon)
-            {
-                for (int i = _weaponPanel.childCount - 1; i >= 2; i--)
-                    DestroyImmediate(_weaponPanel.GetChild(i).gameObject);
-
-                _weaponPanel.sizeDelta = new Vector2(74 + (_weaponPanel.childCount - 1) * 67, _weaponPanel.sizeDelta.y);
-            }
-            
-            if (Id != -1) item.InitializeItem(Id);
-            else item.DeinitializeItem();
-            
-            Destroy(_dragItem.gameObject);
-            StopAllCoroutines();
-            isDragging = false;
-        }
-
         public void MouseEnterFrame(IItem item)
         {
             if (item.Id == -1 || isDragging)
@@ -124,11 +55,62 @@ namespace FT.Inventory
             _descriptionPanel.DisplayItem(ItemDatabase.Get(item.Id));
         }
 
-        public void MouseExitFrame()
-        {
+        public void MouseExitFrame() => 
             _descriptionPanel.ToggleVisibility(false);
+        
+        public void ItemStopDrag()
+        {
+            if (!_dragItem)
+            {
+                StopAllCoroutines();
+                return;
+            }
+            
+            List<RaycastResult> results = new();
+            results.GetHitResults(Input.mousePosition);
+            IItem hitItem = results.Count > 0 ? results[0].gameObject.GetComponentInParent<IItem>() : null;
+            Item tempItem = ItemDatabase.Get(_currentItem.Id);
+            if (hitItem?.BasePanel == null || !hitItem.BasePanel.CanPlaceItem(hitItem.SlotType, tempItem.GetType()))
+            {
+                _currentItem.ToggleVisibility(true);
+                Destroy(_dragItem.gameObject);
+                StopAllCoroutines();
+                isDragging = false;
+                return;
+            }
+
+            ExecuteEndDrag(_currentItem, hitItem);
+            
+            Destroy(_dragItem.gameObject);
+            StopAllCoroutines();
+            isDragging = false;
+            
+            _descriptionPanel.DisplayItem(tempItem);
         }
 
+        private void ExecuteEndDrag(IItem draggedItem, IItem selectedItem)
+        {
+            IBasePanel draggedPanel = draggedItem.BasePanel;
+            IBasePanel selectedPanel = selectedItem.BasePanel;
+
+            if (draggedPanel == selectedPanel)
+            {
+                selectedPanel.SwapItems(draggedItem, selectedItem);
+                return;
+            }
+
+            if (draggedPanel is WeaponPanel)
+            {
+                draggedPanel.InitializeItems(draggedItem, selectedItem);
+                draggedPanel.InitializePanel(selectedItem.Id, false);
+            }
+            else
+            {
+                draggedPanel.InitializeItems(draggedItem, selectedItem);
+                selectedPanel.InitializePanel(selectedItem.Id, true);
+            }
+        }
+        
         private IEnumerator ItemDrag(IItem item)
         {
             if (item.Id == -1)

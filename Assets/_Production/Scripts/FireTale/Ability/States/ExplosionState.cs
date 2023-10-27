@@ -7,7 +7,7 @@ namespace FT.Ability.States
 {
     public class ExplosionState : AbilityState
     {
-        public override void Execute(List<Data.Ability> abilities)
+        public override void Execute(HashSet<Data.Ability> abilities)
         {
             StatsController.ApplyDamage(AbilityInfo.Damage);
             Collider[] hits = Physics.OverlapSphere(transform.position, 2.0f);

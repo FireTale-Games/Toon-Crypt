@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace FT.Tools.Extensions
 {
@@ -18,5 +20,8 @@ namespace FT.Tools.Extensions
                 return;
             self.Add(value);
         }
+
+        public static void GetHitResults(this List<RaycastResult> hitResults, Vector2 mousePosition) => 
+            EventSystem.current.RaycastAll(new PointerEventData(EventSystem.current) {position = mousePosition}, hitResults);
     }
 }
