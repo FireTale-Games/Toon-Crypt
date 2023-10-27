@@ -5,7 +5,6 @@ namespace FT.UI
 {
     public enum ItemType : sbyte { All, Weapon, Ability }
     
-    [System.Serializable]
     public readonly struct InventoryItem
     {
         public readonly Guid _guid;
@@ -25,5 +24,7 @@ namespace FT.UI
     public interface IItemUi
     {
         public InventoryItem InventoryItem { get; }
+        public void Initialize(int id);
+        public void DeinitializeItem();
     }
 }
