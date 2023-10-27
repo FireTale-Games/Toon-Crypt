@@ -8,8 +8,7 @@ using FT.Tools.Extensions;
 namespace FT.Data
 {
     public enum AbilitySpreadType : byte { SINGLE_TARGET, MULTIPLE_TARGETS }
-    
-    [CreateAssetMenu(fileName = "Ability", menuName = "FireTale/Items/Ability")]
+
     public class Ability : Item
     {
         [field: SerializeField] public AbilitySpreadType SpreadType { get; private set; }
