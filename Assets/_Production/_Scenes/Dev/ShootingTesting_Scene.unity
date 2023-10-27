@@ -2016,6 +2016,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterScreen_Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 4764312052315943515, guid: 04695ce51b814df4893f3ca96cf57dee,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5608171012939596658, guid: 04695ce51b814df4893f3ca96cf57dee,
         type: 3}
       propertyPath: m_AnchorMax.y
