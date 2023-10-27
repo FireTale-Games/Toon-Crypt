@@ -1,3 +1,4 @@
+using FT.Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,11 +11,20 @@ namespace FT.UI
         [SerializeField] private TextMeshProUGUI _abilityName;
         [SerializeField] private TextMeshProUGUI _abilityDescription;
 
-        public void DisplayItem(Data.Ability ability)
+        private CanvasGroup _canvasGroup;
+
+        private void Awake() => 
+            _canvasGroup = GetComponent<CanvasGroup>();
+
+        public void EnableDisplay(Item ability)
         {
             _abilityImage.sprite = ability.Sprite;
             _abilityName.text = ability.DisplayName;
             _abilityDescription.text = ability.DisplayName;
+            _canvasGroup.alpha = 1.0f;
         }
+        
+        public void DisableDisplay() => 
+            _canvasGroup.alpha = 0.0f;
     }
 }

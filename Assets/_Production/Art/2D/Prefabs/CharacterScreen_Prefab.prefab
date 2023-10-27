@@ -657,6 +657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46cf7a64847925e418e7d37d8e6e2dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _descriptionPanel: {fileID: 2277299901670143431}
 --- !u!1 &4996847808344865617
 GameObject:
   m_ObjectHideFlags: 0
@@ -1384,13 +1385,14 @@ GameObject:
   - component: {fileID: 2508515453663749363}
   - component: {fileID: 3179745152791177887}
   - component: {fileID: 2277299901670143431}
+  - component: {fileID: 9057770625973895112}
   m_Layer: 5
   m_Name: DescriptionPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8601112818228690424
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1466,6 +1468,18 @@ MonoBehaviour:
   _abilityImage: {fileID: 2112787490731959835}
   _abilityName: {fileID: 6204746225069065933}
   _abilityDescription: {fileID: 5779978492411195775}
+--- !u!225 &9057770625973895112
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8208094628667227892}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &8494206174653294378
 GameObject:
   m_ObjectHideFlags: 0
