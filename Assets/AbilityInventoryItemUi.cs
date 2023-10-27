@@ -15,16 +15,13 @@ public class AbilityInventoryItemUi : InventoryItemUi
 
     public override void InitializeItem(int id)
     {
-        if (id == -1)
-            DeinitializeItem();
-            
-        Item item = ItemDatabase.Get(id);
-        if (id == -1)
-            return;
-
-        Id = item.Id;
-        _itemImage.sprite = item.Sprite;
-        _itemImage.color = new Color(1, 1, 1, 1);
+        base.InitializeItem(id);
         _state.AddSpell.Set(new AbilityStruct(Id, true));
+    }
+
+    public override void DeinitializeItem()
+    {
+        _state.AddSpell.Set(new AbilityStruct(Id, false));
+        base.DeinitializeItem();
     }
 }

@@ -39,7 +39,7 @@ namespace FT.Inventory
             
             _removeItemButton.onClick.AddListener(() => 
             { 
-                _currentItem?.InitializeItem();
+                _currentItem?.DeinitializeItem();
                 _currentItem = null;
             });
         }
@@ -47,6 +47,17 @@ namespace FT.Inventory
         public void ItemLeftClicked(IItem item) =>
             StartCoroutine(ItemDrag(item));
 
+        public void MouseEnterFrame(IItem item)
+        {
+            if (item.Id == -1 || isDragging)
+                return;
+            
+            _descriptionPanel.DisplayItem(ItemDatabase.Get(item.Id));
+        }
+
+        public void MouseExitFrame() => 
+            _descriptionPanel.ToggleVisibility(false);
+        
         public void ItemStopDrag()
         {
             if (!_dragItem)
@@ -67,13 +78,8 @@ namespace FT.Inventory
                 isDragging = false;
                 return;
             }
-            
-            int Id = hitItem.Id;
-            hitItem.InitializeItem(_currentItem.Id);
-            _currentItem.InitializeItem(Id);
-            
-            hitItem.BasePanel.Initialize(tempItem);
-            _currentItem.BasePanel.Initialize(null);
+
+            ExecuteEndDrag(_currentItem, hitItem);
             
             Destroy(_dragItem.gameObject);
             StopAllCoroutines();
@@ -82,19 +88,29 @@ namespace FT.Inventory
             _descriptionPanel.DisplayItem(tempItem);
         }
 
-        public void MouseEnterFrame(IItem item)
+        private void ExecuteEndDrag(IItem draggedItem, IItem selectedItem)
         {
-            if (item.Id == -1 || isDragging)
+            IBasePanel draggedPanel = draggedItem.BasePanel;
+            IBasePanel selectedPanel = selectedItem.BasePanel;
+
+            if (draggedPanel == selectedPanel)
+            {
+                selectedPanel.SwapItems(draggedItem, selectedItem);
                 return;
-            
-            _descriptionPanel.DisplayItem(ItemDatabase.Get(item.Id));
-        }
+            }
 
-        public void MouseExitFrame()
-        {
-            _descriptionPanel.ToggleVisibility(false);
+            if (draggedPanel is WeaponPanel)
+            {
+                draggedPanel.InitializeItems(draggedItem, selectedItem);
+                draggedPanel.InitializePanel(selectedItem.Id, false);
+            }
+            else
+            {
+                draggedPanel.InitializeItems(draggedItem, selectedItem);
+                selectedPanel.InitializePanel(selectedItem.Id, true);
+            }
         }
-
+        
         private IEnumerator ItemDrag(IItem item)
         {
             if (item.Id == -1)

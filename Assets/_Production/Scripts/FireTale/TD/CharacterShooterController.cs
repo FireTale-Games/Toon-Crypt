@@ -34,8 +34,6 @@ namespace FT.Shooting
                 _abilities.Add(ability);
             else
                 _abilities.Remove(ability);
-            
-            Debug.Log(_abilities.Count);
         }
 
         private void ToggleShooting(bool value)

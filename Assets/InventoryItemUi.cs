@@ -8,7 +8,7 @@ namespace FT.Inventory
     public class InventoryItemUi : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IItem
     {
         [SerializeField] protected Image _itemImage;
-        public int Id { get; protected set; } = -1;
+        public int Id { get; private set; } = -1;
         public IBasePanel BasePanel => GetComponentInParent<IBasePanel>();
         [field: SerializeField] public SlotType SlotType { get; protected set; } = SlotType.All;
 
@@ -29,20 +29,19 @@ namespace FT.Inventory
         
         public virtual void InitializeItem(int id)
         {
-            if (id == -1)
+            Item item = ItemDatabase.Get(id);
+            if (item == null)
             {
                 DeinitializeItem();
                 return;
             }
-            
-            Item item = ItemDatabase.Get(id);
 
             Id = item.Id;
             _itemImage.sprite = item.Sprite;
             _itemImage.color = new Color(1, 1, 1, 1);
         }
-        
-        protected virtual void DeinitializeItem()
+
+        public virtual void DeinitializeItem()
         {
             Id = -1;
 

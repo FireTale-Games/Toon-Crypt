@@ -7,7 +7,8 @@ namespace FT.Inventory
         public int Id { get; }
         public IBasePanel BasePanel { get; }
         public SlotType SlotType { get; }
-        public void InitializeItem(int id = -1);
+        public void InitializeItem(int id);
+        public void DeinitializeItem();
         public void ToggleVisibility(bool isVisible);
     }
 }

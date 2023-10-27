@@ -4,24 +4,25 @@ using UnityEngine;
 
 namespace FT.Inventory
 {
-    public class WeaponPanel : MonoBehaviour, IBasePanel
+    public class WeaponPanel : BasePanel
     {
         [SerializeField] private RectTransform _weaponRectTransform; 
         [SerializeField] private InventoryItemUi _weaponSlot; 
         [SerializeField] private RectTransform _abilityUi; 
         
-        public bool CanPlaceItem(SlotType currentItemSlotType, Type selectedItemType) => 
+        public override bool CanPlaceItem(SlotType currentItemSlotType, Type selectedItemType) => 
             currentItemSlotType.ToString() == selectedItemType.Name;
 
-        public void Initialize(Item item)
+        public override void InitializePanel(int id, bool isDrag)
         {
-            if (item == null && _weaponSlot.Id == -1)
-                RemoveAbilities();
-            
+            Item item = ItemDatabase.Get(id);
             if (item is not Weapon weapon)
                 return;
             
-            AddAbilities(GetSlotNumber(weapon.Rarity));
+            if (!isDrag)
+                RemoveAbilities();
+            else
+                AddAbilities(GetSlotNumber(weapon.Rarity));
         }
 
         private void RemoveAbilities()
