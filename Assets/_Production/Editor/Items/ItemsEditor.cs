@@ -13,7 +13,7 @@ namespace Editor.Items
         [SerializeField] private VisualTreeAsset _rootTree;
         private EditorScreenBase _itemDataBaseEditor;
         
-        [MenuItem("Catacomb Crawler/Items Editor")]
+        [MenuItem("Toon Crypt/Items Editor")]
         public static void InitializeEditorWindow() =>
             EditorHelpers.CreateEditorWindow<ItemsEditor>("Items Editor", 400.0f, 1920.0f);
 

@@ -21,7 +21,7 @@ namespace FT.Ability.States
                 yield return new WaitForSeconds(2.0f);
                 _currentDuration += 2.0f;
 
-                StatsController.ApplyDamage(AbilityInfo.Damage);
+                //StatsController.ApplyDamage(AbilityInfo.Damage);
             }
             
             _onDispose.Action?.Invoke(this);

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03f58eab962397249b321f9f589acfd5, type: 3}
+  m_Name: Ability_SlipperySerf
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: SlipperySerf
+  <DisplayName>k__BackingField: Slippery Serf
+  <Prefab>k__BackingField: {fileID: 0}
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 76062be80f329c94e85183a03ac0e318,
+    type: 3}
+  <Rarity>k__BackingField: 1
+  <SpreadType>k__BackingField: 1
+  <AbilityInfo>k__BackingField: '{"Percentage": 5, "Duration": 3, "Radius": 0.5,
+    "Damage": 7}'
