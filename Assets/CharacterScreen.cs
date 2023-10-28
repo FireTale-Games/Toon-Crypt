@@ -27,14 +27,14 @@ namespace FT.UI
             results.RaycastHits(Input.mousePosition);
             IItemUi hitItem = results.Count > 0 ? results[0].gameObject.GetComponentInParent<IItemUi>() : null;
             IBasePanel hitPanel = (hitItem as ItemUi)?.transform.GetComponentInParent<IBasePanel>();
-            if (hitItem == null || !selectedPanel.CanSwapItem(hitItem.InventoryItem._itemType, item.InventoryItem.item.GetType()) || 
-                !hitPanel!.CanSwapItem(hitItem.InventoryItem._itemType, item.InventoryItem.item.GetType()))
+            if (hitItem == null || !selectedPanel.CanSwapItem(hitItem.ItemType, item.InventoryItem.itemType) || 
+                !hitPanel!.CanSwapItem(hitItem.ItemType, item.InventoryItem.itemType))
             {
                 item.ToggleVisibility(true);
                 return;
             }
             
-            if (item.InventoryItem._id != -1 && hitItem.InventoryItem._id != -1)
+            if (item.InventoryItem.IsValid && hitItem.InventoryItem.IsValid)
             {
                 bool? swapDone = (hitPanel as WeaponPanel)?.SwapItems(item, hitItem);
                 swapDone ??= selectedPanel.SwapItems(item, hitItem);
@@ -44,14 +44,14 @@ namespace FT.UI
                 return;
             }
             
-            int id = item.InventoryItem._id;
+            InventoryItem inventoryItem = item.InventoryItem;
             selectedPanel.DeinitializeItem(item);
-            hitPanel.InitializeItem(hitItem, id);
+            hitPanel.InitializeItem(hitItem, inventoryItem);
         }
 
         public void OnPointerEnterAction(IItemUi item)
         {
-            if (item.InventoryItem._id == -1 || isDragging)
+            if (!item.InventoryItem.IsValid || isDragging)
                 return;
             
             _descriptionPanel.EnableDisplay(item.InventoryItem.item);
@@ -62,11 +62,8 @@ namespace FT.UI
 
         private IEnumerator OnItemClick(IItemUi item)
         {
-            if (item.InventoryItem._id == -1)
+            if (!item.InventoryItem.IsValid)
                 yield break;
-            
-            //Temp
-            GetComponentInChildren<InventoryPanel>().currentItem = item;
             
             Vector2 clickPosition = Input.mousePosition;
             while (Vector2.Distance(clickPosition, Input.mousePosition) > 20)

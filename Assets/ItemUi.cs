@@ -13,8 +13,8 @@ namespace FT.UI
         [SerializeField] private Image _itemImage;
         [SerializeField] private ItemType _itemType = ItemType.All;
         
-        public InventoryItem InventoryItem => _inventoryItem ??= new InventoryItem(new Guid(), -1, _itemType);
-        private InventoryItem? _inventoryItem;
+        public InventoryItem InventoryItem { get; private set; }
+        public ItemType ItemType => _itemType;
 
         private IItemActionHandler<IItemUi> _actionHandler;
         
@@ -33,13 +33,13 @@ namespace FT.UI
         public void OnPointerExit(PointerEventData eventData) =>
             _actionHandler?.OnPointerExitAction();
         
-        public void Initialize(int id)
+        public void Initialize(InventoryItem inventoryItem)
         {
-            Item item = ItemDatabase.Get(id);
+            Item item = ItemDatabase.Get(inventoryItem._id);
             if (item == null)
                 return;
 
-            _inventoryItem = new InventoryItem(Guid.NewGuid(), id, _itemType);
+            InventoryItem = inventoryItem;
             _itemImage.sprite = item.Sprite;
             _itemRarityImage.sprite = Resources.Load<Sprite>($"General/Rarity/Item{item.Rarity}_Sprite");
             ToggleVisibility(true);
@@ -47,7 +47,7 @@ namespace FT.UI
 
         public void DeinitializeItem()
         {
-            _inventoryItem = new InventoryItem(new Guid(), -1, _itemType);
+            InventoryItem = new InventoryItem(new Guid(), -1);
             ToggleVisibility(false);
         }
 

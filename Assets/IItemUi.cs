@@ -9,22 +9,23 @@ namespace FT.UI
     {
         public readonly Guid _guid;
         public readonly int _id;
-        public readonly ItemType _itemType;
         
-        public InventoryItem(Guid itemGuid, int itemId, ItemType itemType)
+        public InventoryItem(Guid itemGuid, int itemId)
         {
             _guid = itemGuid;
             _id = itemId;
-            _itemType = itemType;
         }
 
+        public bool IsValid => _guid != Guid.Empty;
         public Item item => ItemDatabase.Get(_id);
+        public Type itemType => item.GetType();
     }
 
     public interface IItemUi
     {
         public InventoryItem InventoryItem { get; }
-        public void Initialize(int id);
+        public ItemType ItemType { get; }
+        public void Initialize(InventoryItem inventoryItem);
         public void DeinitializeItem();
         public void ToggleVisibility(bool isVisible);
     }

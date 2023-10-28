@@ -1,3 +1,4 @@
+using System;
 using FT.Data;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,24 +10,20 @@ namespace FT.UI
         [SerializeField] private Button _addItem; 
         [SerializeField] private Button _removeItem;
 
-        public IItemUi currentItem;
-        
         private void Awake()
         {
             _addItem.onClick.AddListener(() =>
             {
                 foreach (IItemUi itemUi in GetComponentsInChildren<IItemUi>())
                 {
-                    if (itemUi.InventoryItem._id != -1)
+                    if (itemUi.InventoryItem.IsValid)
                         continue;
 
                     Item item = ItemDatabase.GetRandomItem();
-                    itemUi.Initialize(item.Id);
+                    itemUi.Initialize(new InventoryItem(Guid.NewGuid(),  item.Id));
                     break;
                 }
             });
-            
-            _removeItem.onClick.AddListener(() => currentItem?.DeinitializeItem());
         }
     }
 }

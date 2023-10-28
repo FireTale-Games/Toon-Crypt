@@ -18,25 +18,25 @@ namespace FT.UI
             return targetType.ToString() == itemType.Name;
         }
 
-        public override void InitializeItem(IItemUi item, int initializeId)
+        public override void InitializeItem(IItemUi item, InventoryItem inventoryItem)
         {
-            base.InitializeItem(item, initializeId);
-            if (item.InventoryItem._itemType == ItemType.Ability)
+            base.InitializeItem(item, inventoryItem);
+            if (item.ItemType == ItemType.Ability)
                 GameObject.FindWithTag("Player").GetComponent<Character>().State.AddSpell.Set(new SpellStruct(item.InventoryItem._id, true));
-            else if (item.InventoryItem._itemType == ItemType.Weapon)
+            else if (item.ItemType == ItemType.Weapon)
                 AddAbilitySlots(item.InventoryItem.item.Rarity);
         }
 
         public override bool SwapItems(IItemUi selectedItem, IItemUi hitItem)
         {
-            if (selectedItem.InventoryItem.item.GetType().Name != hitItem.InventoryItem.item.GetType().Name)
+            if (selectedItem.InventoryItem.item.GetType().Name != hitItem.InventoryItem.itemType.Name)
                 return false;
             
             base.SwapItems(selectedItem, hitItem);
                 
-            if (selectedItem.InventoryItem._itemType == ItemType.Weapon)
+            if (selectedItem.ItemType == ItemType.Weapon)
                 AddAbilitySlots(selectedItem.InventoryItem.item.Rarity);
-            else if (hitItem.InventoryItem._itemType == ItemType.Weapon)
+            else if (hitItem.ItemType == ItemType.Weapon)
                 AddAbilitySlots(hitItem.InventoryItem.item.Rarity);
                 
             return true;
@@ -72,10 +72,10 @@ namespace FT.UI
 
         public override void DeinitializeItem(IItemUi item)
         {
-            if (item.InventoryItem._itemType == ItemType.Ability)
+            if (item.ItemType == ItemType.Ability)
                 GameObject.FindWithTag("Player").GetComponent<Character>().State.AddSpell.Set(new SpellStruct(item.InventoryItem._id, false));
 
-            if (item.InventoryItem._itemType == ItemType.Weapon)
+            if (item.ItemType == ItemType.Weapon)
                 RemoveAbilitySlots();
             
             base.DeinitializeItem(item);
