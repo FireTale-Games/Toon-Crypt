@@ -27,14 +27,21 @@ namespace FT.UI
                 AddAbilitySlots(item.InventoryItem.item.Rarity);
         }
 
-        //public override void SwapItems(IItemUi selectedItem, IItemUi hitItem)
-        //{
-        //    base.SwapItems(selectedItem, hitItem);
-        //    if (selectedItem.InventoryItem._itemType == ItemType.Weapon)
-        //        AddAbilitySlots(selectedItem.InventoryItem.item.Rarity);
-        //    else if (hitItem.InventoryItem._itemType == ItemType.Weapon)
-        //        AddAbilitySlots(hitItem.InventoryItem.item.Rarity);
-        //}
+        public override bool SwapItems(IItemUi selectedItem, IItemUi hitItem)
+        {
+            if (selectedItem.InventoryItem.item.GetType().Name != hitItem.InventoryItem.item.GetType().Name)
+                return false;
+            
+            base.SwapItems(selectedItem, hitItem);
+                
+            if (selectedItem.InventoryItem._itemType == ItemType.Weapon)
+                AddAbilitySlots(selectedItem.InventoryItem.item.Rarity);
+            else if (hitItem.InventoryItem._itemType == ItemType.Weapon)
+                AddAbilitySlots(hitItem.InventoryItem.item.Rarity);
+                
+            return true;
+
+        }
 
         private void AddAbilitySlots(Rarity rarity)
         {

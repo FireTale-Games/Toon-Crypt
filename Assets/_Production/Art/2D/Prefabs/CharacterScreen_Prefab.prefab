@@ -712,7 +712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _abilityRectTransform: {fileID: 3110958405298201419}
-  _itemUi: {fileID: 3323013332993506827, guid: cdeae013366c347429c2c8ab15da9608, type: 3}
+  _itemUi: {fileID: 4875118046301726781, guid: 3b474b5a474cf6f46affea35b72784e6, type: 3}
 --- !u!114 &6248764998134260765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1591,8 +1591,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

@@ -7,6 +7,6 @@ namespace FT.UI
         public bool CanSwapItem(ItemType targetType, Type itemType);
         public void InitializeItem(IItemUi item, int initializeId);
         public void DeinitializeItem(IItemUi item);
-        public void SwapItems(IItemUi selectedItem, IItemUi hitItem);
+        public bool SwapItems(IItemUi selectedItem, IItemUi hitItem);
     }
 }

@@ -13,11 +13,12 @@ namespace FT.UI
         public virtual void DeinitializeItem(IItemUi item) => 
             item.DeinitializeItem();
 
-        public virtual void SwapItems(IItemUi selectedItem, IItemUi hitItem)
+        public virtual bool SwapItems(IItemUi selectedItem, IItemUi hitItem)
         {
             int id = selectedItem.InventoryItem._id;
             selectedItem.Initialize(hitItem.InventoryItem._id);
             hitItem.Initialize(id);
+            return true;
         }
     }
 }

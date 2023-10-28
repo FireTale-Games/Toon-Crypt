@@ -36,7 +36,11 @@ namespace FT.UI
             
             if (item.InventoryItem._id != -1 && hitItem.InventoryItem._id != -1)
             {
-                hitPanel.SwapItems(item, hitItem);
+                bool? swapDone = (hitPanel as WeaponPanel)?.SwapItems(item, hitItem);
+                swapDone ??= selectedPanel.SwapItems(item, hitItem);
+                if (!swapDone.Value)
+                    item.ToggleVisibility(true);
+
                 return;
             }
             
