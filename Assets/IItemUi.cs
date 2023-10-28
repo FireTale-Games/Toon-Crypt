@@ -9,11 +9,13 @@ namespace FT.UI
     {
         public readonly Guid _guid;
         public readonly int _id;
+        public readonly InventoryItem[] _abilities;
         
-        public InventoryItem(Guid itemGuid, int itemId)
+        public InventoryItem(Guid itemGuid, int itemId, InventoryItem[] abilities)
         {
             _guid = itemGuid;
             _id = itemId;
+            _abilities = abilities;
         }
 
         public bool IsValid => _guid != Guid.Empty;

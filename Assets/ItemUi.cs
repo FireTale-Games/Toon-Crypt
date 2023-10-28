@@ -47,7 +47,7 @@ namespace FT.UI
 
         public void DeinitializeItem()
         {
-            InventoryItem = new InventoryItem(new Guid(), -1);
+            InventoryItem = new InventoryItem(new Guid(), -1, null);
             ToggleVisibility(false);
         }
 

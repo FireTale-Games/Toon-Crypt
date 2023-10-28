@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FT.Data;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +21,7 @@ namespace FT.UI
                         continue;
 
                     Item item = ItemDatabase.GetRandomItem();
-                    itemUi.Initialize(new InventoryItem(Guid.NewGuid(),  item.Id));
+                    itemUi.Initialize(new InventoryItem(Guid.NewGuid(),  item.Id, item is Weapon ? Enumerable.Repeat(new InventoryItem(Guid.NewGuid(),  item.Id, null), (int)item.Rarity).ToArray() : null ));
                     break;
                 }
             });

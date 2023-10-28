@@ -36,6 +36,9 @@ namespace FT.Shooting
 
         private void ToggleShooting(bool value)
         {
+            if (_projectile == null)
+                return;
+            
             if (value) StartCoroutine(nameof(StartShooting));
             else StopAllCoroutines();
         }

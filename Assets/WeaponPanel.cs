@@ -24,7 +24,7 @@ namespace FT.UI
             if (item.ItemType == ItemType.Ability)
                 GameObject.FindWithTag("Player").GetComponent<Character>().State.AddSpell.Set(new SpellStruct(item.InventoryItem._id, true));
             else if (item.ItemType == ItemType.Weapon)
-                AddAbilitySlots(item.InventoryItem.item.Rarity);
+                AddAbilitySlots((int)item.InventoryItem.item.Rarity);
         }
 
         public override bool SwapItems(IItemUi selectedItem, IItemUi hitItem)
@@ -35,28 +35,18 @@ namespace FT.UI
             base.SwapItems(selectedItem, hitItem);
                 
             if (selectedItem.ItemType == ItemType.Weapon)
-                AddAbilitySlots(selectedItem.InventoryItem.item.Rarity);
+                AddAbilitySlots((int)selectedItem.InventoryItem.item.Rarity);
             else if (hitItem.ItemType == ItemType.Weapon)
-                AddAbilitySlots(hitItem.InventoryItem.item.Rarity);
+                AddAbilitySlots((int)hitItem.InventoryItem.item.Rarity);
                 
             return true;
 
         }
 
-        private void AddAbilitySlots(Rarity rarity)
+        private void AddAbilitySlots(int childNumber)
         {
             RemoveAbilitySlots();
-
-            int childNumber = rarity switch
-            {
-                Rarity.Common => 1,
-                Rarity.Uncommon => 2,
-                Rarity.Rare => 3,
-                Rarity.Epic => 4,
-                Rarity.Legendary => 5,
-                _ => 0
-            };
-
+            
             _abilityRectTransform.sizeDelta = new Vector2(74 + (childNumber - 1) * 67, _abilityRectTransform.sizeDelta.y);
             for (int i = 0; i < childNumber; i++)
                 Instantiate(_itemUi, _abilityRectTransform);
