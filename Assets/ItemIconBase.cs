@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,7 +12,7 @@ namespace FT.UI
         [SerializeField] private Image _itemImage;
         
         [field: SerializeField] public InventoryItem InventoryItem { get; private set; }
-        
+
         private IItemIconActionHandler<IItemIcon> _actionHandler;
         
         private void Awake() => 

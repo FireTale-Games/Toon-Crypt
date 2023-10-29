@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using FT.Data;
 using FT.Tools.Observers;
 using FT.UI;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace FT.Inventory
 {
@@ -25,13 +27,23 @@ namespace FT.Inventory
             if (_debugItems == null) 
                 return;
 
-            int index = 0;
             foreach (Item debugItem in _debugItems)
             {
-                InventoryItem inventoryItem = new(debugItem.Id, index);
+                InventoryItem inventoryItem = new(debugItem.Id, Random.Range(0, 27));
                 _items.Add(inventoryItem);
                 _onItemAdded.Action?.Invoke(inventoryItem);
-                index++;
+            }
+
+            Item item = ItemDatabase.GetRandomItem();
+            for (int i = 0; i < 27; i++)
+            {
+                if (_items.Any(itemData => itemData.Index == i)) 
+                    continue;
+                
+                InventoryItem inventoryItem = new(item.Id, i);
+                _items.Add(inventoryItem);
+                _onItemAdded.Action?.Invoke(inventoryItem);
+                break;
             }
         }
 

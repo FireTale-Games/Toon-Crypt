@@ -23,15 +23,8 @@ namespace FT.UI.Screen
 
         private void ItemAdded(InventoryItem inventoryItem)
         {
-            IItemIcon[] _iconsBase = _inventoryTransform.GetComponentsInChildren<IItemIcon>();
-            foreach (IItemIcon itemIcon in _iconsBase)
-            {
-                if (itemIcon.InventoryItem.IsValid)
-                    continue;
-                
-                itemIcon.InitializeItemIcon(inventoryItem);
-                break;
-            }
+            IItemIcon _iconBase = _inventoryTransform.GetChild(inventoryItem.Index).GetComponent<IItemIcon>();
+            _iconBase.InitializeItemIcon(inventoryItem);
         }
 
         public void OnPointerDownAction(IItemIcon item) => 
