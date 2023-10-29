@@ -16,11 +16,11 @@ namespace FT.UI
         private void Awake() => 
             _canvasGroup = GetComponent<CanvasGroup>();
 
-        public void EnableDisplay(Item ability)
+        public void EnableDisplay(Item item)
         {
-            _abilityImage.sprite = ability.Sprite;
-            _abilityName.text = ability.DisplayName;
-            _abilityDescription.text = ability.DisplayName;
+            _abilityImage.sprite = item.Sprite;
+            _abilityName.text = item.DisplayName;
+            _abilityDescription.text = item.DisplayName;
             _canvasGroup.alpha = 1.0f;
         }
         
