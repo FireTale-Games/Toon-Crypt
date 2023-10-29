@@ -12,7 +12,6 @@ namespace FT.Inventory
         [SerializeField] private List<InventoryItem> _items = new();
         [SerializeField] private Item[] _debugItems;
         
-        
         public IObservableAction<Action<InventoryItem>> OnItemAdded => _onItemAdded;
         private readonly ObservableAction<Action<InventoryItem>> _onItemAdded = new();
         
@@ -25,18 +24,20 @@ namespace FT.Inventory
             
             if (_debugItems == null) 
                 return;
-            
+
+            int index = 0;
             foreach (Item debugItem in _debugItems)
             {
-                InventoryItem inventoryItem = new(debugItem.Id);
+                InventoryItem inventoryItem = new(debugItem.Id, index);
                 _items.Add(inventoryItem);
                 _onItemAdded.Action?.Invoke(inventoryItem);
+                index++;
             }
         }
 
         private void ItemAdded(InventoryItem inventoryItem)
         {
-            Debug.Log($"Item guid: {inventoryItem._guid}, Item Id: {inventoryItem.Id}");
+            
         }
     }
 }

@@ -10,16 +10,19 @@ namespace FT.UI
         [field: SerializeField] public string GuidName { get; private set; }
         public readonly Guid _guid;
         [field: SerializeField] public int Id { get; private set; }
+        [field: SerializeField] public int Index { get; private set; }
 
-        public InventoryItem(int id)
+        public InventoryItem(int id, int index = -1)
         {
             _guid = Guid.NewGuid();
             Id = id;
+            Index = index;
             GuidName = _guid.ToString();
         }
 
         public Item Item => ItemDatabase.Get(Id);
         public bool IsValid => _guid != Guid.Empty;
+        public void SetIndex(int index) => Index = index;
     }
     
     public interface IItemIcon
