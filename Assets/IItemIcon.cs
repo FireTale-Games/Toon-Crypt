@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace FT.UI
 {
+    public enum ItemSlotType : byte {All, Weapon, Ability}
+    
     [Serializable]
     public struct InventoryItem
     {
@@ -29,5 +31,6 @@ namespace FT.UI
     {
         public InventoryItem InventoryItem { get; }
         public void InitializeItemIcon(InventoryItem inventoryItem);
+        public void ToggleVisibility(bool isVisible);
     }
 }
