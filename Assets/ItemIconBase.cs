@@ -4,10 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-
 namespace FT.UI
 {
-    public class ItemUi : MonoBehaviour, IItemUi, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+    public class ItemIconBase : MonoBehaviour, IItemIcon, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private Image _itemRarityImage;
         [SerializeField] private Image _itemImage;
@@ -16,16 +15,16 @@ namespace FT.UI
         public InventoryItem InventoryItem { get; private set; }
         public ItemType ItemType => _itemType;
 
-        private IItemActionHandler<IItemUi> _actionHandler;
+        private IItemActionHandler<IItemIcon> _actionHandler;
         
         private void Awake() => 
-            _actionHandler = GetComponentInParent<IItemActionHandler<IItemUi>>();
+            _actionHandler = GetComponentInParent<IItemActionHandler<IItemIcon>>();
 
         public void OnPointerDown(PointerEventData eventData) =>
             _actionHandler?.OnPointerDownAction(this);
 
         public void OnPointerUp(PointerEventData eventData) =>
-            _actionHandler?.OnPointerUpAction(this, GetComponentInParent<IBasePanel>());
+            _actionHandler?.OnPointerUpAction(this);
 
         public void OnPointerEnter(PointerEventData eventData) =>
             _actionHandler?.OnPointerEnterAction(this);

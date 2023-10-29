@@ -18,10 +18,9 @@ namespace FT.UI
 
         public bool IsValid => _guid != Guid.Empty;
         public Item item => ItemDatabase.Get(_id);
-        public Type itemType => item.GetType();
     }
 
-    public interface IItemUi
+    public interface IItemIcon
     {
         public InventoryItem InventoryItem { get; }
         public ItemType ItemType { get; }

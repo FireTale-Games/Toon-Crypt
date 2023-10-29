@@ -1,55 +1,34 @@
 using System.Collections;
-using System.Collections.Generic;
-using FT.Tools.Extensions;
+using FT.Inventory;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace FT.UI
 {
-    public class CharacterScreen : MonoBehaviour, IItemActionHandler<IItemUi>
+    public class CharacterScreen : MonoBehaviour, IItemActionHandler<IItemIcon>
     {
         [SerializeField] private DescriptionPanelUi _descriptionPanel;
-        [SerializeField] private Image _dragImage; 
+        [SerializeField] private Image _dragImage;
 
+        private IInventory _inventory;
         private bool isDragging;
 
-        public void OnPointerDownAction(IItemUi item) => 
+        private void Start() => 
+            _inventory = GameObject.FindWithTag("Player").GetComponent<IInventory>();
+
+        public void OnPointerDownAction(IItemIcon item) => 
             StartCoroutine(OnItemClick(item));
 
-        public void OnPointerUpAction(IItemUi item, IBasePanel selectedPanel)
+        public void OnPointerUpAction(IItemIcon item)
         {
             if (!isDragging)
                 return;
             
             isDragging = false;
-            List<RaycastResult> results = new();
-            results.RaycastHits(Input.mousePosition);
-            IItemUi hitItem = results.Count > 0 ? results[0].gameObject.GetComponentInParent<IItemUi>() : null;
-            IBasePanel hitPanel = (hitItem as ItemUi)?.transform.GetComponentInParent<IBasePanel>();
-            if (hitItem == null || !selectedPanel.CanSwapItem(hitItem.ItemType, item.InventoryItem.itemType) || 
-                !hitPanel!.CanSwapItem(hitItem.ItemType, item.InventoryItem.itemType))
-            {
-                item.ToggleVisibility(true);
-                return;
-            }
-            
-            if (item.InventoryItem.IsValid && hitItem.InventoryItem.IsValid)
-            {
-                bool? swapDone = (hitPanel as WeaponPanel)?.SwapItems(item, hitItem);
-                swapDone ??= selectedPanel.SwapItems(item, hitItem);
-                if (!swapDone.Value)
-                    item.ToggleVisibility(true);
-
-                return;
-            }
-            
-            InventoryItem inventoryItem = item.InventoryItem;
-            selectedPanel.DeinitializeItem(item);
-            hitPanel.InitializeItem(hitItem, inventoryItem);
+            _inventory.InventoryChanged(item);
         }
 
-        public void OnPointerEnterAction(IItemUi item)
+        public void OnPointerEnterAction(IItemIcon item)
         {
             if (!item.InventoryItem.IsValid || isDragging)
                 return;
@@ -60,7 +39,7 @@ namespace FT.UI
         public void OnPointerExitAction() => 
             _descriptionPanel.DisableDisplay();
 
-        private IEnumerator OnItemClick(IItemUi item)
+        private IEnumerator OnItemClick(IItemIcon item)
         {
             if (!item.InventoryItem.IsValid)
                 yield break;
