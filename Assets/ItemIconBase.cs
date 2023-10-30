@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,7 +6,7 @@ namespace FT.UI
 {
     public class ItemIconBase : MonoBehaviour, IItemIcon, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
     {
-        [SerializeField] protected ItemSlotType _itemSlotType;
+        [field: SerializeField] public ItemSlotType ItemSlotType { get; private set; }
         [SerializeField] private Image _itemRarityImage;
         [SerializeField] private Image _itemImage;
         

@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using FT.Inventory;
+using FT.TD;
 using FT.Tools.Extensions;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,24 +8,32 @@ using UnityEngine.UI;
 
 namespace FT.UI.Screen
 {
-    public class CharacterScreen : MonoBehaviour, IItemIconActionHandler<IItemIcon>
+    public class CharacterScreen : ScreenBase, IItemIconActionHandler<IItemIcon>
     {
         [SerializeField] private Transform _inventoryTransform;
         [SerializeField] private DescriptionPanelUi _descriptionPanel;
         [SerializeField] private Image _dragImage;
+        [SerializeField] private ItemIconBase _weaponSlot;
 
         private bool isDragging;
         
         private void Awake()
         {
-            GameObject.FindWithTag("Player").GetComponent<IInventory>()?.OnItemAdded.AddObserver(ItemAdded);
+            Character.OnCharacterInitialized += OnStateInitialized;
+        }
+        
+        private void OnStateInitialized(CharacterState State)
+        {
+            State.IsInventory.AddObserver(ToggleInventory);
+            Character.OnCharacterInitialized -= OnStateInitialized;
         }
 
-        private void ItemAdded(InventoryItem inventoryItem)
+        private void ToggleInventory(bool value)
         {
-            IItemIcon _iconBase = _inventoryTransform.GetChild(inventoryItem.Index).GetComponent<IItemIcon>();
-            _iconBase.InitializeItemIcon(inventoryItem);
+            if (value) Show();
+            else Hide();
         }
+
 
         public void OnPointerDownAction(IItemIcon item) => 
             StartCoroutine(OnItemClick(item));

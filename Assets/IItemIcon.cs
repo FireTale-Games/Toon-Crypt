@@ -30,6 +30,7 @@ namespace FT.UI
     public interface IItemIcon
     {
         public InventoryItem InventoryItem { get; }
+        public ItemSlotType ItemSlotType { get; }
         public void InitializeItemIcon(InventoryItem inventoryItem);
         public void ToggleVisibility(bool isVisible);
     }

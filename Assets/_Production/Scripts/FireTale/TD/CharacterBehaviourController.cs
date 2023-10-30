@@ -20,6 +20,10 @@ namespace FT.TD
         {
             _state.IsInventory.Set(inputData.isInventory);
             _state.IsEscape.Set(inputData.isEscape);
+            
+            if (_state.IsInventory.Value)
+                return;
+            
             _state.IsShooting.Set(inputData.isShooting);
             _physicsController.SetMoveAndMouseValues(inputData.moveDirection, inputData.mousePosition);
         }

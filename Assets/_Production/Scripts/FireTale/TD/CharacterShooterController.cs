@@ -21,19 +21,9 @@ namespace FT.Shooting
         {
             CharacterState state = GetComponent<Character>()?.State;
             state?.IsShooting.AddObserver(ToggleShooting);
-            state?.AddSpell.AddObserver(AddSpell);
+            state?.IsInventory.AddObserver(v => { if (v) StopAllCoroutines(); });
         }
-
-        private void AddSpell(SpellStruct spell)
-        {
-            Data.Ability ability = ItemDatabase.Get<Data.Ability>(spell._id);
-            if (ability == null)
-                return;
-
-            if (spell._isAdd) _abilities.Add(ability);
-            else _abilities.Remove(ability);
-        }
-
+        
         private void ToggleShooting(bool value)
         {
             if (value) StartCoroutine(nameof(StartShooting));

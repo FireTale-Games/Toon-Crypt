@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FT.Data;
+using FT.TD;
 using FT.Tools.Observers;
 using FT.UI;
 using UnityEngine;
@@ -20,18 +21,26 @@ namespace FT.Inventory
         public IObservableAction<Action<InventoryItem>> OnItemRemoved => _onItemRemoved;
         private readonly ObservableAction<Action<InventoryItem>> _onItemRemoved = new();
 
+        public IObservableAction<Action<InventoryItem>> OnWeaponEquipped => _onWeaponEquipped;
+        private readonly ObservableAction<Action<InventoryItem>> _onWeaponEquipped = new();
+        
+        public IObservableAction<Action<InventoryItem>> OnWeaponUnequipped => _onWeaponUnequipped;
+        private readonly ObservableAction<Action<InventoryItem>> _onWeaponUnequipped = new();
+        
         private void Awake()
         {
-            OnItemAdded.AddObserver(ItemAdded);
-            
-            if (_debugItems == null) 
-                return;
+            if (_debugItems != null) 
+                InitializeDebugItems();
+        }
 
+        public InventoryItem[] SetupSlots() => _items.ToArray();
+        
+        private void InitializeDebugItems()
+        {
             foreach (Item debugItem in _debugItems)
             {
                 InventoryItem inventoryItem = new(debugItem.Id, Random.Range(0, 27));
                 _items.Add(inventoryItem);
-                _onItemAdded.Action?.Invoke(inventoryItem);
             }
 
             Item item = ItemDatabase.GetRandomItem();
@@ -42,14 +51,8 @@ namespace FT.Inventory
                 
                 InventoryItem inventoryItem = new(item.Id, i);
                 _items.Add(inventoryItem);
-                _onItemAdded.Action?.Invoke(inventoryItem);
                 break;
             }
-        }
-
-        private void ItemAdded(InventoryItem inventoryItem)
-        {
-            
         }
     }
 }
