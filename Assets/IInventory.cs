@@ -6,10 +6,10 @@ namespace FT.Inventory
 {
     public interface IInventory
     {
-        public IObservableAction<Action<InventoryItem>> OnItemAdded { get; }
-        public IObservableAction<Action<InventoryItem>> OnItemRemoved { get; }
-        public IObservableAction<Action<InventoryItem>> OnWeaponEquipped { get; }
-        public IObservableAction<Action<InventoryItem>> OnWeaponUnequipped { get; }
-        public InventoryItem[] SetupSlots();
+        public IObservableAction<Action<InventoryItem>> OnInventoryUpdate { get; }
+        public IObservableAction<Action<InventoryItem>> OnWeaponUpdate { get; }
+        public void SetupSlots();
+        public void UpdateInventory(InventoryItem draggedIcon, InventoryItem hitIcon);
+        public void UpdateWeapon(InventoryItem draggedIcon, InventoryItem hitIcon);
     }
 }

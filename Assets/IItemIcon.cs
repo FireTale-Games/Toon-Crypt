@@ -14,17 +14,17 @@ namespace FT.UI
         [field: SerializeField] public int Id { get; private set; }
         [field: SerializeField] public int Index { get; private set; }
 
-        public InventoryItem(int id, int index = -1)
+        public InventoryItem(Guid guid = default, int id = -1, int index = -1)
         {
-            _guid = Guid.NewGuid();
+            _guid = guid;
             Id = id;
             Index = index;
             GuidName = _guid.ToString();
         }
 
         public Item Item => ItemDatabase.Get(Id);
+        public Type Type => Item.GetType();
         public bool IsValid => _guid != Guid.Empty;
-        public void SetIndex(int index) => Index = index;
     }
     
     public interface IItemIcon

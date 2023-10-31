@@ -20,25 +20,25 @@ namespace FT.UI
         protected Canvas Canvas => _canvas ??= GetComponent<Canvas>();
         private Canvas _canvas;
 
-        private int SortOrderOnOpen => 4;
+        private byte SortOrderOnOpen => 64;
         
         protected virtual void Start()
         {
-            CanvasGroup.Null()?.HideCanvasGroup(0);
+            CanvasGroup.Null()?.HideCanvasGroup();
             if(Canvas != null)
                 Canvas.sortingOrder = 1;
         }
 
         public virtual void Show()
         {
-            CanvasGroup.Null()?.ShowCanvasGroup(0.1f);
+            CanvasGroup.Null()?.ShowCanvasGroup();
             if (Canvas != null)
                 Canvas.sortingOrder = SortOrderOnOpen;
         }
 
         public virtual void Hide()
         {
-            CanvasGroup.Null()?.HideCanvasGroup(0.1f);
+            CanvasGroup.Null()?.HideCanvasGroup();
             if (Canvas != null)
                 Canvas.sortingOrder = 1;
         }
