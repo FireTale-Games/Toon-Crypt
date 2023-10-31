@@ -22,6 +22,9 @@ namespace FT.Inventory
         public IObservableAction<Action<InventoryItem>> OnWeaponUpdate => _onWeaponUpdate;
         private readonly ObservableAction<Action<InventoryItem>> _onWeaponUpdate = new();
         
+        public IObservableAction<Action<InventoryItem>> OnAbilityUpdate => _onAbilityUpdate;
+        private readonly ObservableAction<Action<InventoryItem>> _onAbilityUpdate = new();
+        
         private void Awake()
         {
             if (_debugItems != null) 
@@ -38,32 +41,33 @@ namespace FT.Inventory
         {
             InventoryItem draggedItem = new(hitIcon._guid, hitIcon.Id, draggedIcon.Index);
             InventoryItem hitItem = new(draggedIcon._guid, draggedIcon.Id, hitIcon.Index);
-            
-            if (_items.Contains(hitIcon))
-            {
-                int index = _items.FindIndex(item => item.Equals(hitIcon));
-                _items[index] = draggedItem;
-            }
 
-            int index1 = _items.FindIndex(item => item.Equals(draggedIcon));
-            _items[index1] = hitItem;
+            int hitIndex = _items.FindIndex(item => item.Equals(hitIcon));
+            if (hitIndex != -1)
+                _items[hitIndex] = draggedItem;
             
+            int dragIndex = _items.FindIndex(item => item.Equals(draggedIcon));
+            if (dragIndex != -1)
+                _items[dragIndex] = hitItem;
+
             _onInventoryUpdate.Action?.Invoke(draggedItem);
             _onInventoryUpdate.Action?.Invoke(hitItem);
         }
 
         public void UpdateWeapon(InventoryItem draggedIcon, InventoryItem hitIcon)
         {
-            InventoryItem draggedItem = new(hitIcon._guid, hitIcon.Id, draggedIcon.Index);
-            InventoryItem hitItem = new(draggedIcon._guid, draggedIcon.Id, hitIcon.Index);
+            InventoryItem draggedItem = new(hitIcon._guid, hitIcon.Id, draggedIcon.Index, hitIcon._abilities);
+            InventoryItem hitItem = new(draggedIcon._guid, draggedIcon.Id, hitIcon.Index, draggedIcon._abilities);
     
+            Debug.Log(draggedIcon._abilities.Length);
+            
             bool isWeaponHit = _weaponItem.IsValid && hitIcon.Equals(_weaponItem);
             bool isWeaponDrag = _weaponItem.IsValid && draggedIcon.Equals(_weaponItem);
 
             InventoryItem inventoryItemToFind = isWeaponHit ? draggedIcon : hitIcon;
             InventoryItem newWeaponItem = isWeaponHit ? hitItem : draggedItem;
             InventoryItem newInventoryItem = isWeaponHit ? draggedItem : hitItem;
-
+            
             if (isWeaponHit || isWeaponDrag)
             {
                 int index = _items.FindIndex(item => item.Equals(inventoryItemToFind));
@@ -73,7 +77,7 @@ namespace FT.Inventory
                 else
                     _items[index] = newInventoryItem;
         
-                _weaponItem = new InventoryItem(newWeaponItem._guid, newWeaponItem.Id, 255);
+                _weaponItem = new InventoryItem(newWeaponItem._guid, newWeaponItem.Id, 255, newWeaponItem._abilities);
         
                 _onWeaponUpdate.Action?.Invoke(_weaponItem);
                 _onInventoryUpdate.Action?.Invoke(newInventoryItem);
@@ -86,6 +90,44 @@ namespace FT.Inventory
             _onInventoryUpdate.Action?.Invoke(draggedItem);
         }
 
+        public void UpdateAbility(InventoryItem draggedIcon, InventoryItem hitIcon)
+        {
+            InventoryItem draggedItem = new(hitIcon._guid, hitIcon.Id, draggedIcon.Index);
+            InventoryItem hitItem = new(draggedIcon._guid, draggedIcon.Id, hitIcon.Index);
+
+            bool isAbilityHit = _weaponItem._abilities[hitIcon.Index].IsValid;
+
+            _weaponItem._abilities[hitIcon.Index] = hitItem;
+            _items.Remove(draggedIcon);
+            _onAbilityUpdate.Action?.Invoke(hitItem);
+            _onInventoryUpdate.Action?.Invoke(draggedItem);
+            
+            InventoryItem inventoryItemToFind = isAbilityHit ? draggedIcon : hitIcon;
+            InventoryItem newWeaponItem = isAbilityHit ? hitItem : draggedItem;
+            InventoryItem newInventoryItem = isAbilityHit ? draggedItem : hitItem;
+            
+            //if (isAbilityHit || isAbilityDrag)
+            //{
+            //    int index = _items.FindIndex(item => item.Equals(inventoryItemToFind));
+        //
+            //    if (index == -1)
+            //        _items.Add(newInventoryItem);
+            //    else
+            //        _items[index] = newInventoryItem;
+        //
+            //    _weaponItem = new InventoryItem(newWeaponItem._guid, newWeaponItem.Id, 255);
+        //
+            //    _onAbilityUpdate.Action?.Invoke(_weaponItem);
+            //    _onInventoryUpdate.Action?.Invoke(newInventoryItem);
+            //    return;
+            //}
+            //_weaponItem = hitItem;
+            //_items.Remove(draggedIcon);
+//
+            //_onAbilityUpdate.Action?.Invoke(_weaponItem);
+            //_onInventoryUpdate.Action?.Invoke(draggedItem);
+        }
+        
         private void InitializeDebugItems()
         {
             foreach (Item debugItem in _debugItems)
