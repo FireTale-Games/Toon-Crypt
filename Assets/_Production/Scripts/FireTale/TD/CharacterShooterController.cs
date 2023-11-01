@@ -42,25 +42,27 @@ namespace FT.Shooting
 
         private IEnumerator StartShooting()
         {
-            if (_nextShootTime <= Time.time)
-            {
-                ShootProjectile().AddObserver(OnHit);
-                
-                _nextShootTime = Time.time + _shootDelay;
-                yield return new WaitForSeconds(_shootDelay);
-            }
+            yield break;
             
-            while (true)
-            {
-                if (_nextShootTime <= Time.time)
-                {
-                    ShootProjectile().AddObserver(OnHit);
-                    
-                    _nextShootTime = Time.time + _shootDelay;
-                }
+            //if (_nextShootTime <= Time.time)
+            //{
+            //    ShootProjectile().AddObserver(OnHit);
+            //    
+            //    _nextShootTime = Time.time + _shootDelay;
+            //    yield return new WaitForSeconds(_shootDelay);
+            //}
+            //
+            //while (true)
+            //{
+            //    if (_nextShootTime <= Time.time)
+            //    {
+            //        ShootProjectile().AddObserver(OnHit);
+            //        
+            //        _nextShootTime = Time.time + _shootDelay;
+            //    }
 
-                yield return null;
-            }
+            //    yield return null;
+            //}
         }
         
         private IObservableAction<Action<IHit>> ShootProjectile()
