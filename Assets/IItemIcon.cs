@@ -30,6 +30,7 @@ namespace FT.UI
         public Item Item => ItemDatabase.Get(Id);
         public Type Type => Item.GetType();
         public bool IsValid => _guid != Guid.Empty;
+        public void SetIndex(int index) => Index = index;
     }
     
     public interface IItemIcon

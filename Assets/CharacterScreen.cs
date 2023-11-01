@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using FT.Data;
 using FT.Inventory;
 using FT.TD;
@@ -157,7 +158,8 @@ namespace FT.UI.Screen
             for (int i = 0; i < (byte)weaponItem.Item.Rarity; i++)
             {
                 IItemIcon abilityIcon = Instantiate(_abilityIconSlot, _abilityTransform);
-                abilityIcon.InitializeItemIcon(weaponItem._abilities[i]);
+                if (weaponItem._abilities.Any(t => t.Index == i))
+                    abilityIcon.InitializeItemIcon(weaponItem._abilities[i]);
             }
         }
         
