@@ -9,27 +9,22 @@ namespace FT.UI
     [Serializable]
     public struct InventoryItem
     {
-        [field: SerializeField] public string GuidName { get; private set; }
-        public readonly Guid _guid;
         [field: SerializeField] public int Id { get; private set; }
         [field: SerializeField] public int Index { get; private set; }
-        [field: SerializeField] public InventoryItem[] _abilities;
+        [field: SerializeField] public int[] _abilities;
         
-        
-        public InventoryItem(Guid guid = default, int id = -1, int index = -1, InventoryItem[] abilities = null)
+        public InventoryItem(int id = 0, int index = 0, int[] abilities = null)
         {
-            _guid = guid;
             Id = id;
             Index = index;
-            GuidName = _guid.ToString();
-            _abilities = ItemDatabase.Get(Id) is Weapon item ? new InventoryItem[(byte)item.Rarity] : null;
+            _abilities = ItemDatabase.Get(Id) is Weapon item ? new int[(byte)item.Rarity] : null;
             for (int i = 0; i < _abilities?.Length; i++)
-                _abilities[i] = abilities == null ? new InventoryItem(default, -1, i) : abilities[i];
+                _abilities[i] = abilities == null ? 0 : abilities[i];
         }
 
         public Item Item => ItemDatabase.Get(Id);
         public Type Type => Item.GetType();
-        public bool IsValid => _guid != Guid.Empty;
+        public bool IsValid => Id != 0;
         public void SetIndex(int index) => Index = index;
     }
     

@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 3323013332993506827}
   - component: {fileID: 1029540122716344669}
   - component: {fileID: 3158556082898763831}
+  - component: {fileID: -4674454229007018339}
   m_Layer: 0
   m_Name: ItemIcon_Prefab
   m_TagString: Untagged
@@ -135,6 +136,26 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &-4674454229007018339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370695777406204886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f2b5590ff167d4c969f250f1e71c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ItemSlotType>k__BackingField: 0
+  _itemRarityImage: {fileID: 1529233394800652978}
+  _itemImage: {fileID: 6412725860578911016}
+  <InventoryItem>k__BackingField:
+    <GuidName>k__BackingField: 
+    <Id>k__BackingField: 0
+    <Index>k__BackingField: 0
+    _abilities: []
 --- !u!1 &5354349291436908194
 GameObject:
   m_ObjectHideFlags: 0
