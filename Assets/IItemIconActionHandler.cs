@@ -1,18 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class IItemIconActionHandler : MonoBehaviour
+namespace FT.UI
 {
-    // Start is called before the first frame update
-    void Start()
+    public interface IItemIconActionHandler<in T>
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void OnPointerDownAction(T t);
+        public void OnPointerUpAction(T t);
+        public void OnPointerEnterAction(T t);
+        public void OnPointerExitAction();
     }
 }
