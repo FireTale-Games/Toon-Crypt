@@ -21,7 +21,7 @@ namespace FT.UI
             _actionHandler?.OnPointerDownAction(this);
 
         public void OnPointerUp(PointerEventData eventData) =>
-            _actionHandler?.OnPointerUpAction(this);
+            _actionHandler?.OnPointerUpAction(this, GetComponentInParent<IBasePanel>());
 
         public void OnPointerEnter(PointerEventData eventData) =>
             _actionHandler?.OnPointerEnterAction(this);

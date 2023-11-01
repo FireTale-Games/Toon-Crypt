@@ -24,16 +24,41 @@ namespace FT.Inventory
                 InitializeDebugItems();
         }
 
-        public void UpdateInventory(InventoryItem draggedIcon, InventoryItem hitIcon)
-        {
-            _onInventoryUpdate.Action?.Invoke(draggedIcon);
-            _onInventoryUpdate.Action?.Invoke(hitIcon);
-        }
+        //public void UpdateInventory(InventoryItem draggedIcon, InventoryItem hitIcon)
+        //{
+        //    int index = draggedIcon.Index;
+        //    draggedIcon.SetIndex(hitIcon.Index);
+        //    hitIcon.SetIndex(index);
+        //    
+        //    _onInventoryUpdate.Action?.Invoke(draggedIcon);
+        //    _onInventoryUpdate.Action?.Invoke(hitIcon);
+        //}
         
         public void InitializeInventory()
         {
             foreach (InventoryItem inventoryItem in _items)
                 _onInventoryUpdate.Action?.Invoke(inventoryItem);
+        }
+
+        public void UpdateInventory(InventoryItem inventoryItem, int slotIndex)
+        {
+            int itemIndex = _items.FindIndex(item => item.Index == slotIndex);
+            if (!inventoryItem.IsValid)
+            {
+                if (itemIndex != -1)
+                    _items.Remove(_items[itemIndex]);
+                
+                _onInventoryUpdate.Action?.Invoke(new InventoryItem(0, slotIndex));
+                return;
+            }
+                
+            inventoryItem.SetIndex(slotIndex);
+            if (itemIndex != -1)
+                _items[itemIndex] = inventoryItem;
+            else
+                _items.Add(inventoryItem);
+
+            _onInventoryUpdate.Action?.Invoke(inventoryItem);
         }
 
         private void InitializeDebugItems()

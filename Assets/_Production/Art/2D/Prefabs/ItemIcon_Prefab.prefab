@@ -148,14 +148,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f2b5590ff167d4c969f250f1e71c2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ItemSlotType>k__BackingField: 0
+  <ItemSlotType>k__BackingField: 1
   _itemRarityImage: {fileID: 1529233394800652978}
   _itemImage: {fileID: 6412725860578911016}
   <InventoryItem>k__BackingField:
-    <GuidName>k__BackingField: 
     <Id>k__BackingField: 0
     <Index>k__BackingField: 0
-    _abilities: []
+    _abilities: 
 --- !u!1 &5354349291436908194
 GameObject:
   m_ObjectHideFlags: 0

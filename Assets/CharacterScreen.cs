@@ -11,31 +11,31 @@ namespace FT.UI.Screen
 {
     public class CharacterScreen : ScreenBase, IItemIconActionHandler<IItemIcon>
     {
-        [SerializeField] private RectTransform _inventoryTransform;
         [SerializeField] private DescriptionPanelUi _descriptionPanel;
         [SerializeField] private Image _dragImage;
         
-        public IInventory Inventory => _inventory ??= GameObject.FindGameObjectWithTag("Player").GetComponent<IInventory>();
+        protected IInventory Inventory => _inventory ??= GameObject.FindGameObjectWithTag("Player").GetComponent<IInventory>();
         private IInventory _inventory;
         
-        private bool isDragging;
         
-        private void Awake() => 
+        private bool isDragging;
+
+        protected override void Start()
+        {
+            base.Start();
+            
             Character.OnCharacterInitialized += OnStateInitialized;
+            _inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<IInventory>();
+            GetComponentInChildren<IBasePanel>().InitializePanel(_inventory);
+        }
+        
 
         private void OnStateInitialized(CharacterState State)
         {
             State.IsInventory.AddObserver(ToggleInventory);
-            Inventory?.OnInventoryUpdate.AddObserver(UpdateInventory);
-            Inventory?.InitializeInventory();
             Character.OnCharacterInitialized -= OnStateInitialized;
         }
         
-        private void UpdateInventory(InventoryItem inventoryItem)
-        {
-            _inventoryTransform.GetChild(inventoryItem.Index).GetComponent<IItemIcon>().InitializeItemIcon(inventoryItem);
-        }
-
         private void ToggleInventory(bool value)
         {
             if (value) Show();
@@ -45,7 +45,7 @@ namespace FT.UI.Screen
         public void OnPointerDownAction(IItemIcon draggedIcon) => 
             StartCoroutine(OnItemClick(draggedIcon));
 
-        public void OnPointerUpAction(IItemIcon draggedIcon)
+        public void OnPointerUpAction(IItemIcon draggedIcon, IBasePanel draggedPanel)
         {
             if (!isDragging)
                 return;
@@ -54,10 +54,23 @@ namespace FT.UI.Screen
             List<RaycastResult> results = new();
             results.RaycastHits(Input.mousePosition);
             IItemIcon hitIcon = results.Count > 0 ? results[0].gameObject.GetComponentInParent<IItemIcon>() : null;
+            IBasePanel hitPanel = hitIcon is ItemIconBase iconBase ? iconBase.GetComponentInParent<IBasePanel>() : null;  
             
-            if (hitIcon == null)
+            if (hitIcon == null || hitPanel == null)
             {
                 draggedIcon.ToggleVisibility(true);
+                return;
+            }
+
+            InventoryItem draggedItem = draggedIcon.InventoryItem;
+            InventoryItem hitItem = hitIcon.InventoryItem;
+            
+            if (draggedPanel.TrySwapItem(draggedIcon.InventoryItem.Type, hitIcon.ItemSlotType) &&
+                hitPanel.TrySwapItem(draggedIcon.InventoryItem.Type, hitIcon.ItemSlotType))
+            {
+                int tempIndex = hitIcon.InventoryItem.Index;
+                hitPanel.HitSlot(draggedItem, tempIndex);
+                draggedPanel.DragSlot(hitItem, draggedIcon.InventoryItem.Index);
                 return;
             }
             

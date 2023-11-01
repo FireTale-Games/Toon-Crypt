@@ -8,5 +8,6 @@ namespace FT.Inventory
     {
         public IObservableAction<Action<InventoryItem>> OnInventoryUpdate { get; }
         public void InitializeInventory();
+        public void UpdateInventory(InventoryItem inventoryItem, int slotIndex);
     }
 }

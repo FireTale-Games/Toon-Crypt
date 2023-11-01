@@ -24,9 +24,9 @@ namespace FT.UI
         
         protected virtual void Start()
         {
-            CanvasGroup.Null()?.HideCanvasGroup();
-            if(Canvas != null)
-                Canvas.sortingOrder = 1;
+            //CanvasGroup.Null()?.HideCanvasGroup();
+            //if(Canvas != null)
+            //    Canvas.sortingOrder = 1;
         }
 
         public virtual void Show()
