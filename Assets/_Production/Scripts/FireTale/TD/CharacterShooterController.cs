@@ -1,9 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using FT.Data;
+using FT.Inventory;
 using FT.TD;
 using FT.Tools.Observers;
+using FT.UI;
 using UnityEngine;
 
 namespace FT.Shooting
@@ -13,7 +16,7 @@ namespace FT.Shooting
         [SerializeField] private float _shootDelay;
         [SerializeField] private Projectile _projectile;
         [SerializeField] private Transform _spawnPoint;
-        [SerializeField] private List<Data.Ability> _abilities;
+        private readonly Dictionary<int, Data.Ability> _abilities = new();
 
         private float _nextShootTime;
         
@@ -21,8 +24,32 @@ namespace FT.Shooting
         {
             CharacterState state = GetComponent<Character>()?.State;
             state?.IsShooting.AddObserver(ToggleShooting);
+
+            IInventory _inventory = GetComponent<IInventory>();
+            _inventory.OnAbilityUpdate.AddObserver(OnAbilityChange);
+            _inventory.OnWeaponUpdate.AddObserver(OnWeaponChange);
         }
-        
+
+        private void OnWeaponChange(InventoryItem weaponItem)
+        {
+            _abilities.Clear();
+            if (!weaponItem.IsValid)
+                return;
+
+            for (int i = 0; i < weaponItem._abilities.Length; i++)
+            {
+                Data.Ability ability = weaponItem._abilities[i] == 0 ? null : ItemDatabase.Get<Data.Ability>(weaponItem._abilities[i]);
+                if (ability != null)
+                    _abilities.Add(i, ability);
+            }
+        }
+
+        private void OnAbilityChange(int id, int index)
+        {
+            if (id == 0) _abilities.Remove(index);
+            else _abilities[index] = ItemDatabase.Get<Data.Ability>(index);
+        }
+
         private void ToggleShooting(bool value)
         {
             if (value) StartCoroutine(nameof(StartShooting));
@@ -62,6 +89,6 @@ namespace FT.Shooting
             return projectile.OnHit;
         }
         
-        private void OnHit(IHit hit) => hit.RegisterAbilityStates(_abilities);
+        private void OnHit(IHit hit) => hit.RegisterAbilityStates(_abilities.Values.ToList());
     }
 }

@@ -14,10 +14,6 @@ namespace FT.UI.Screen
         [SerializeField] private DescriptionPanelUi _descriptionPanel;
         [SerializeField] private Image _dragImage;
         
-        protected IInventory Inventory => _inventory ??= GameObject.FindGameObjectWithTag("Player").GetComponent<IInventory>();
-        private IInventory _inventory;
-        
-        
         private bool isDragging;
 
         protected override void Start()
@@ -25,7 +21,7 @@ namespace FT.UI.Screen
             base.Start();
             
             Character.OnCharacterInitialized += OnStateInitialized;
-            _inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<IInventory>();
+            IInventory _inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<IInventory>();
             foreach (IBasePanel basePanel in GetComponentsInChildren<IBasePanel>())
                 basePanel.InitializePanel(_inventory);
         }
@@ -65,7 +61,7 @@ namespace FT.UI.Screen
 
             InventoryItem draggedItem = draggedIcon.InventoryItem;
             InventoryItem hitItem = hitIcon.InventoryItem;
-            
+
             if (draggedPanel.TrySwapItem(draggedIcon.InventoryItem.Type, hitIcon.ItemSlotType) &&
                 draggedPanel.TrySwapItem(hitIcon.InventoryItem.Type, draggedIcon.ItemSlotType) &&
                 hitPanel.TrySwapItem(draggedIcon.InventoryItem.Type, hitIcon.ItemSlotType) &&

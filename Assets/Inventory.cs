@@ -20,6 +20,9 @@ namespace FT.Inventory
         public IObservableAction<Action<InventoryItem>> OnWeaponUpdate => _onWeaponUpdate;
         private readonly ObservableAction<Action<InventoryItem>> _onWeaponUpdate = new();
         
+        public IObservableAction<Action<int, int>> OnAbilityUpdate => _onAbilityUpdate;
+        private readonly ObservableAction<Action<int, int>> _onAbilityUpdate = new();
+        
         private void Awake()
         {
             if (_debugItems != null) 
@@ -58,6 +61,12 @@ namespace FT.Inventory
             inventoryItem.SetIndex(slotIndex);
             _weapon = inventoryItem;
             _onWeaponUpdate.Action?.Invoke(inventoryItem);
+        }
+
+        public void UpdateAbility(InventoryItem inventoryItem, int slotIndex)
+        {
+            _weapon._abilities[slotIndex] = inventoryItem.Id;
+            _onAbilityUpdate.Action?.Invoke(inventoryItem.Id, slotIndex);
         }
 
         private void InitializeDebugItems()

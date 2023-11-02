@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4816025467005295407}
   - component: {fileID: 307061922332477207}
   - component: {fileID: 7618017966764638273}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ItemFrame_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 1029540122716344669}
   - component: {fileID: 3158556082898763831}
   - component: {fileID: -4674454229007018339}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ItemIcon_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f2b5590ff167d4c969f250f1e71c2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ItemSlotType>k__BackingField: 1
+  <ItemSlotType>k__BackingField: 0
   _itemRarityImage: {fileID: 1529233394800652978}
   _itemImage: {fileID: 6412725860578911016}
   <InventoryItem>k__BackingField:
@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 4910313845222136388}
   - component: {fileID: 1806033679097318529}
   - component: {fileID: 1529233394800652978}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ItemRarity_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 4132688707250186025}
   - component: {fileID: 5594389240434414011}
   - component: {fileID: 6412725860578911016}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Item_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,7 +317,7 @@ GameObject:
   - component: {fileID: 401483123873317713}
   - component: {fileID: 4699501459890954998}
   - component: {fileID: 6154683589831825386}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ItemBackground_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

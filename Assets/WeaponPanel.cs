@@ -23,30 +23,26 @@ namespace FT.UI
         public override void DragSlot(InventoryItem hitItem, int slotIndex) => 
             Inventory.UpdateWeapon(hitItem, slotIndex);
 
-        public override bool TrySwapItem(Type draggedItem, ItemSlotType hitItem)
-        {
-            if ((draggedItem == null || draggedItem == typeof(Weapon)) && hitItem == ItemSlotType.Weapon)
-                return true;
-
-            return false;
-        }
+        public override bool TrySwapItem(Type draggedItem, ItemSlotType hitItem) => 
+            (draggedItem == null || draggedItem == typeof(Weapon)) && hitItem is ItemSlotType.Weapon or ItemSlotType.All;
 
         private void UpdateWeapon(InventoryItem inventoryItem)
         {
             transform.GetChild(0).GetComponent<IItemIcon>().InitializeItemIcon(inventoryItem);
             
             if (inventoryItem.IsValid)
-                AddAbilitySlots((byte)inventoryItem.Item.Rarity);
+                AddAbilitySlots((byte)inventoryItem.Item.Rarity, inventoryItem._abilities);
             else
                 RemoveAbilitySlots();
         }
 
-        private void AddAbilitySlots(byte raritySlots)
+        private void AddAbilitySlots(byte raritySlots, int[] abilities)
         {
             RemoveAbilitySlots();
             for (byte i = 0; i < raritySlots; i++)
             {
-                Instantiate(_abilitySlot, _abilityPanel);
+                IItemIcon _ability = Instantiate(_abilitySlot, _abilityPanel);
+                _ability.InitializeItemIcon(abilities[i] != 0 ? new InventoryItem(abilities[i], i) : new InventoryItem(0, i));
                 _abilityPanel.sizeDelta = new Vector2(74 + (raritySlots - 1) * 67, _abilityPanel.sizeDelta.y);
             }
         }

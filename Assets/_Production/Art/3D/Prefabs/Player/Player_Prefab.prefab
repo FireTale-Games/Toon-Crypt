@@ -183,8 +183,6 @@ MonoBehaviour:
     <Index>k__BackingField: 0
     _abilities: 
   _debugItems:
-  - {fileID: 11400000, guid: ed76f4b70bcd5aa49b838c4032f645d4, type: 2}
-  - {fileID: 11400000, guid: 8c1c1d2804b29cb4b80d811d1f935298, type: 2}
   - {fileID: 11400000, guid: eb450d0b9a7dbee429be0d16993615ac, type: 2}
   - {fileID: 11400000, guid: 295ab28f00eebae498d7b7184c091de1, type: 2}
   - {fileID: 11400000, guid: 0b22fc6ef685517419dedb0939273413, type: 2}
