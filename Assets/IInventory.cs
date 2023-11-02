@@ -7,7 +7,9 @@ namespace FT.Inventory
     public interface IInventory
     {
         public IObservableAction<Action<InventoryItem>> OnInventoryUpdate { get; }
+        public IObservableAction<Action<InventoryItem>> OnWeaponUpdate { get; }
         public void InitializeInventory();
         public void UpdateInventory(InventoryItem inventoryItem, int slotIndex);
+        public void UpdateWeapon(InventoryItem inventoryItem, int slotIndex);
     }
 }

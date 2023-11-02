@@ -23,7 +23,7 @@ namespace FT.UI
         }
 
         public Item Item => ItemDatabase.Get(Id);
-        public Type Type => Item.GetType();
+        public Type Type => Id == 0 ? null : Item.GetType();
         public bool IsValid => Id != 0;
         public void SetIndex(int index) => Index = index;
     }

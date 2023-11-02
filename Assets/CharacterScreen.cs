@@ -26,7 +26,8 @@ namespace FT.UI.Screen
             
             Character.OnCharacterInitialized += OnStateInitialized;
             _inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<IInventory>();
-            GetComponentInChildren<IBasePanel>().InitializePanel(_inventory);
+            foreach (IBasePanel basePanel in GetComponentsInChildren<IBasePanel>())
+                basePanel.InitializePanel(_inventory);
         }
         
 
@@ -66,7 +67,9 @@ namespace FT.UI.Screen
             InventoryItem hitItem = hitIcon.InventoryItem;
             
             if (draggedPanel.TrySwapItem(draggedIcon.InventoryItem.Type, hitIcon.ItemSlotType) &&
-                hitPanel.TrySwapItem(draggedIcon.InventoryItem.Type, hitIcon.ItemSlotType))
+                draggedPanel.TrySwapItem(hitIcon.InventoryItem.Type, draggedIcon.ItemSlotType) &&
+                hitPanel.TrySwapItem(draggedIcon.InventoryItem.Type, hitIcon.ItemSlotType) &&
+                hitPanel.TrySwapItem(hitIcon.InventoryItem.Type, draggedIcon.ItemSlotType))
             {
                 int tempIndex = hitIcon.InventoryItem.Index;
                 hitPanel.HitSlot(draggedItem, tempIndex);
