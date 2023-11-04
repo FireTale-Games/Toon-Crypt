@@ -1,25 +1,21 @@
-using System;
-using FT.Data;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-
 namespace FT.UI
 {
-    public class ItemUi : MonoBehaviour, IItemUi, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+    public class ItemIconBase : MonoBehaviour, IItemIcon, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
     {
+        [field: SerializeField] public ItemSlotType ItemSlotType { get; private set; }
         [SerializeField] private Image _itemRarityImage;
         [SerializeField] private Image _itemImage;
-        [SerializeField] private ItemType _itemType = ItemType.All;
         
-        public InventoryItem InventoryItem { get; private set; }
-        public ItemType ItemType => _itemType;
+        [field: SerializeField] public InventoryItem InventoryItem { get; private set; }
 
-        private IItemActionHandler<IItemUi> _actionHandler;
+        private IItemIconActionHandler<IItemIcon> _actionHandler;
         
         private void Awake() => 
-            _actionHandler = GetComponentInParent<IItemActionHandler<IItemUi>>();
+            _actionHandler = GetComponentInParent<IItemIconActionHandler<IItemIcon>>();
 
         public void OnPointerDown(PointerEventData eventData) =>
             _actionHandler?.OnPointerDownAction(this);
@@ -33,22 +29,15 @@ namespace FT.UI
         public void OnPointerExit(PointerEventData eventData) =>
             _actionHandler?.OnPointerExitAction();
         
-        public void Initialize(InventoryItem inventoryItem)
+        public void InitializeItemIcon(InventoryItem inventoryItem)
         {
-            Item item = ItemDatabase.Get(inventoryItem._id);
-            if (item == null)
-                return;
-
             InventoryItem = inventoryItem;
-            _itemImage.sprite = item.Sprite;
-            _itemRarityImage.sprite = Resources.Load<Sprite>($"General/Rarity/Item{item.Rarity}_Sprite");
-            ToggleVisibility(true);
-        }
-
-        public void DeinitializeItem()
-        {
-            InventoryItem = new InventoryItem(new Guid(), -1);
-            ToggleVisibility(false);
+            ToggleVisibility(InventoryItem.IsValid);
+            if (!InventoryItem.IsValid)
+                return;
+            
+            _itemRarityImage.sprite = Resources.Load<Sprite>($"General/Rarity/Item{InventoryItem.Item.Rarity}_Sprite");
+            _itemImage.sprite = InventoryItem.Item.Sprite;
         }
 
         public void ToggleVisibility(bool isVisible)

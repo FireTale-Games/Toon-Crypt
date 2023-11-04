@@ -23,5 +23,7 @@ namespace FT.Tools.Extensions
 
         public static void RaycastHits(this List<RaycastResult> self, Vector2 mousePosition) => 
             EventSystem.current.RaycastAll(new PointerEventData(EventSystem.current) {position = mousePosition}, self);
+        
+        public static T Null<T>(this T self) where T : Object => self == null ? null : self;
     }
 }

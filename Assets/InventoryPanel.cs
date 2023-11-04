@@ -1,29 +1,23 @@
-using System;
-using FT.Data;
-using UnityEngine;
-using UnityEngine.UI;
+using FT.Inventory;
 
 namespace FT.UI
 {
     public class InventoryPanel : BasePanel
     {
-        [SerializeField] private Button _addItem; 
-        [SerializeField] private Button _removeItem;
-
-        private void Awake()
+        public override void InitializePanel(IInventory inventory)
         {
-            _addItem.onClick.AddListener(() =>
-            {
-                foreach (IItemUi itemUi in GetComponentsInChildren<IItemUi>())
-                {
-                    if (itemUi.InventoryItem.IsValid)
-                        continue;
-
-                    Item item = ItemDatabase.GetRandomItem();
-                    itemUi.Initialize(new InventoryItem(Guid.NewGuid(),  item.Id));
-                    break;
-                }
-            });
+            base.InitializePanel(inventory);
+            Inventory?.OnInventoryUpdate.AddObserver(UpdateInventory);
+            Inventory?.InitializeInventory();
         }
+
+        public override void HitSlot(InventoryItem draggedItem, int slotIndex) => 
+            Inventory.UpdateInventory(draggedItem, slotIndex);
+
+        public override void DragSlot(InventoryItem hitItem, int slotIndex) => 
+            Inventory.UpdateInventory(hitItem, slotIndex);
+
+        private void UpdateInventory(InventoryItem inventoryItem) => 
+            transform.GetChild(inventoryItem.Index).GetComponent<IItemIcon>().InitializeItemIcon(inventoryItem);
     }
 }

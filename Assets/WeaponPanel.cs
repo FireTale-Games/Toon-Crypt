@@ -1,84 +1,57 @@
 using System;
 using FT.Data;
-using FT.TD;
+using FT.Inventory;
 using UnityEngine;
 
 namespace FT.UI
 {
     public class WeaponPanel : BasePanel
     {
-        [SerializeField] private RectTransform _abilityRectTransform;
-        [SerializeField] private RectTransform _itemUi;
+        [SerializeField] private RectTransform _abilityPanel;
+        [SerializeField] private ItemIconBase _abilitySlot;
         
-        public override bool CanSwapItem(ItemType targetType, Type itemType)
+        public override void InitializePanel(IInventory inventory)
         {
-            if (targetType == ItemType.All) 
-                return true;
+            base.InitializePanel(inventory);
+            Inventory?.OnWeaponUpdate.AddObserver(UpdateWeapon);
+            Inventory?.InitializeInventory();
+        }
+
+        public override void HitSlot(InventoryItem draggedItem, int slotIndex) => 
+            Inventory.UpdateWeapon(draggedItem, slotIndex);
+
+        public override void DragSlot(InventoryItem hitItem, int slotIndex) => 
+            Inventory.UpdateWeapon(hitItem, slotIndex);
+
+        public override bool TrySwapItem(Type draggedItem, ItemSlotType hitItem) => 
+            (draggedItem == null || draggedItem == typeof(Weapon)) && hitItem is ItemSlotType.Weapon or ItemSlotType.All;
+
+        private void UpdateWeapon(InventoryItem inventoryItem)
+        {
+            transform.GetChild(0).GetComponent<IItemIcon>().InitializeItemIcon(inventoryItem);
             
-            return targetType.ToString() == itemType.Name;
+            if (inventoryItem.IsValid)
+                AddAbilitySlots((byte)inventoryItem.Item.Rarity, inventoryItem._abilities);
+            else
+                RemoveAbilitySlots();
         }
 
-        public override void InitializeItem(IItemUi item, InventoryItem inventoryItem)
-        {
-            base.InitializeItem(item, inventoryItem);
-            if (item.ItemType == ItemType.Ability)
-                GameObject.FindWithTag("Player").GetComponent<Character>().State.AddSpell.Set(new SpellStruct(item.InventoryItem._id, true));
-            else if (item.ItemType == ItemType.Weapon)
-                AddAbilitySlots(item.InventoryItem.item.Rarity);
-        }
-
-        public override bool SwapItems(IItemUi selectedItem, IItemUi hitItem)
-        {
-            if (selectedItem.InventoryItem.item.GetType().Name != hitItem.InventoryItem.itemType.Name)
-                return false;
-            
-            base.SwapItems(selectedItem, hitItem);
-                
-            if (selectedItem.ItemType == ItemType.Weapon)
-                AddAbilitySlots(selectedItem.InventoryItem.item.Rarity);
-            else if (hitItem.ItemType == ItemType.Weapon)
-                AddAbilitySlots(hitItem.InventoryItem.item.Rarity);
-                
-            return true;
-
-        }
-
-        private void AddAbilitySlots(Rarity rarity)
+        private void AddAbilitySlots(byte raritySlots, int[] abilities)
         {
             RemoveAbilitySlots();
-
-            int childNumber = rarity switch
+            for (byte i = 0; i < raritySlots; i++)
             {
-                Rarity.Common => 1,
-                Rarity.Uncommon => 2,
-                Rarity.Rare => 3,
-                Rarity.Epic => 4,
-                Rarity.Legendary => 5,
-                _ => 0
-            };
-
-            _abilityRectTransform.sizeDelta = new Vector2(74 + (childNumber - 1) * 67, _abilityRectTransform.sizeDelta.y);
-            for (int i = 0; i < childNumber; i++)
-                Instantiate(_itemUi, _abilityRectTransform);
+                IItemIcon _ability = Instantiate(_abilitySlot, _abilityPanel);
+                _ability.InitializeItemIcon(abilities[i] != 0 ? new InventoryItem(abilities[i], i) : new InventoryItem(0, i));
+                _abilityPanel.sizeDelta = new Vector2(74 + (raritySlots - 1) * 67, _abilityPanel.sizeDelta.y);
+            }
         }
-
+        
         private void RemoveAbilitySlots()
         {
-            for (int i = _abilityRectTransform.childCount - 1; i >= 0; i--)
-                DestroyImmediate(_abilityRectTransform.GetChild(i).gameObject);
-
-            _abilityRectTransform.sizeDelta = new Vector2(0, _abilityRectTransform.sizeDelta.y);
-        }
-
-        public override void DeinitializeItem(IItemUi item)
-        {
-            if (item.ItemType == ItemType.Ability)
-                GameObject.FindWithTag("Player").GetComponent<Character>().State.AddSpell.Set(new SpellStruct(item.InventoryItem._id, false));
-
-            if (item.ItemType == ItemType.Weapon)
-                RemoveAbilitySlots();
-            
-            base.DeinitializeItem(item);
+            _abilityPanel.sizeDelta = new Vector2(0, _abilityPanel.sizeDelta.y);
+            for (int i = _abilityPanel.childCount - 1; i >= 0; i--)
+                DestroyImmediate(_abilityPanel.GetChild(i).gameObject);
         }
     }
 }

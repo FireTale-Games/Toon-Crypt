@@ -1,23 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
+using FT.Inventory;
+using FT.TD;
 using FT.Tools.Extensions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace FT.UI
+namespace FT.UI.Screen
 {
-    public class CharacterScreen : MonoBehaviour, IItemActionHandler<IItemUi>
+    public class CharacterScreen : ScreenBase, IItemIconActionHandler<IItemIcon>
     {
         [SerializeField] private DescriptionPanelUi _descriptionPanel;
-        [SerializeField] private Image _dragImage; 
-
+        [SerializeField] private Image _dragImage;
+        
         private bool isDragging;
 
-        public void OnPointerDownAction(IItemUi item) => 
-            StartCoroutine(OnItemClick(item));
+        protected override void Start()
+        {
+            base.Start();
+            
+            Character.OnCharacterInitialized += OnStateInitialized;
+            IInventory _inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<IInventory>();
+            foreach (IBasePanel basePanel in GetComponentsInChildren<IBasePanel>())
+                basePanel.InitializePanel(_inventory);
+        }
+        
 
-        public void OnPointerUpAction(IItemUi item, IBasePanel selectedPanel)
+        private void OnStateInitialized(CharacterState State)
+        {
+            State.IsInventory.AddObserver(ToggleInventory);
+            Character.OnCharacterInitialized -= OnStateInitialized;
+        }
+        
+        private void ToggleInventory(bool value)
+        {
+            if (value) Show();
+            else Hide();
+        }
+        
+        public void OnPointerDownAction(IItemIcon draggedIcon) => 
+            StartCoroutine(OnItemClick(draggedIcon));
+
+        public void OnPointerUpAction(IItemIcon draggedIcon, IBasePanel draggedPanel)
         {
             if (!isDragging)
                 return;
@@ -25,44 +50,46 @@ namespace FT.UI
             isDragging = false;
             List<RaycastResult> results = new();
             results.RaycastHits(Input.mousePosition);
-            IItemUi hitItem = results.Count > 0 ? results[0].gameObject.GetComponentInParent<IItemUi>() : null;
-            IBasePanel hitPanel = (hitItem as ItemUi)?.transform.GetComponentInParent<IBasePanel>();
-            if (hitItem == null || !selectedPanel.CanSwapItem(hitItem.ItemType, item.InventoryItem.itemType) || 
-                !hitPanel!.CanSwapItem(hitItem.ItemType, item.InventoryItem.itemType))
+            IItemIcon hitIcon = results.Count > 0 ? results[0].gameObject.GetComponentInParent<IItemIcon>() : null;
+            IBasePanel hitPanel = hitIcon is ItemIconBase iconBase ? iconBase.GetComponentInParent<IBasePanel>() : null;  
+            
+            if (hitIcon == null || hitPanel == null)
             {
-                item.ToggleVisibility(true);
+                draggedIcon.ToggleVisibility(true);
                 return;
             }
-            
-            if (item.InventoryItem.IsValid && hitItem.InventoryItem.IsValid)
-            {
-                bool? swapDone = (hitPanel as WeaponPanel)?.SwapItems(item, hitItem);
-                swapDone ??= selectedPanel.SwapItems(item, hitItem);
-                if (!swapDone.Value)
-                    item.ToggleVisibility(true);
 
+            InventoryItem draggedItem = draggedIcon.InventoryItem;
+            InventoryItem hitItem = hitIcon.InventoryItem;
+
+            if (draggedPanel.TrySwapItem(draggedIcon.InventoryItem.Type, hitIcon.ItemSlotType) &&
+                draggedPanel.TrySwapItem(hitIcon.InventoryItem.Type, draggedIcon.ItemSlotType) &&
+                hitPanel.TrySwapItem(draggedIcon.InventoryItem.Type, hitIcon.ItemSlotType) &&
+                hitPanel.TrySwapItem(hitIcon.InventoryItem.Type, draggedIcon.ItemSlotType))
+            {
+                int tempIndex = hitIcon.InventoryItem.Index;
+                hitPanel.HitSlot(draggedItem, tempIndex);
+                draggedPanel.DragSlot(hitItem, draggedIcon.InventoryItem.Index);
                 return;
             }
             
-            InventoryItem inventoryItem = item.InventoryItem;
-            selectedPanel.DeinitializeItem(item);
-            hitPanel.InitializeItem(hitItem, inventoryItem);
+            draggedIcon.ToggleVisibility(true);
         }
-
-        public void OnPointerEnterAction(IItemUi item)
+        
+        public void OnPointerEnterAction(IItemIcon draggedIcon)
         {
-            if (!item.InventoryItem.IsValid || isDragging)
+            if (!draggedIcon.InventoryItem.IsValid || isDragging)
                 return;
             
-            _descriptionPanel.EnableDisplay(item.InventoryItem.item);
+            _descriptionPanel.EnableDisplay(draggedIcon.InventoryItem.Item);
         }
 
         public void OnPointerExitAction() => 
             _descriptionPanel.DisableDisplay();
-
-        private IEnumerator OnItemClick(IItemUi item)
+        
+        private IEnumerator OnItemClick(IItemIcon draggedIcon)
         {
-            if (!item.InventoryItem.IsValid)
+            if (!draggedIcon.InventoryItem.IsValid)
                 yield break;
             
             Vector2 clickPosition = Input.mousePosition;
@@ -71,8 +98,8 @@ namespace FT.UI
 
             isDragging = true;
             Image dragImage = Instantiate(_dragImage, transform);
-            dragImage.sprite = item.InventoryItem.item.Sprite;
-            item.ToggleVisibility(false);
+            dragImage.sprite = draggedIcon.InventoryItem.Item.Sprite;
+            draggedIcon.ToggleVisibility(false);
             while (isDragging)
             {
                 dragImage.rectTransform.position = Input.mousePosition;
