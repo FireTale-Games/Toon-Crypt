@@ -57,7 +57,6 @@ MonoBehaviour:
   _projectile: {fileID: 6933081131873257325, guid: 6443070519f9df144b526ff49f43f00f,
     type: 3}
   _spawnPoint: {fileID: 4261930988654408766}
-  _abilities: []
 --- !u!114 &2722569595374299511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,8 +182,7 @@ MonoBehaviour:
     <Index>k__BackingField: 0
     _abilities: 
   _debugItems:
-  - {fileID: 11400000, guid: eb450d0b9a7dbee429be0d16993615ac, type: 2}
-  - {fileID: 11400000, guid: 295ab28f00eebae498d7b7184c091de1, type: 2}
+  - {fileID: 11400000, guid: 0ad7027905db4d4429623f5163f9c10b, type: 2}
   - {fileID: 11400000, guid: 0b22fc6ef685517419dedb0939273413, type: 2}
 --- !u!1 &2913473437384102067
 GameObject:

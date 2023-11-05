@@ -58,27 +58,25 @@ namespace FT.Shooting
 
         private IEnumerator StartShooting()
         {
-            yield break;
+            if (_nextShootTime <= Time.time)
+            {
+                ShootProjectile().AddObserver(OnHit);
+                
+                _nextShootTime = Time.time + _shootDelay;
+                yield return new WaitForSeconds(_shootDelay);
+            }
             
-            //if (_nextShootTime <= Time.time)
-            //{
-            //    ShootProjectile().AddObserver(OnHit);
-            //    
-            //    _nextShootTime = Time.time + _shootDelay;
-            //    yield return new WaitForSeconds(_shootDelay);
-            //}
-            //
-            //while (true)
-            //{
-            //    if (_nextShootTime <= Time.time)
-            //    {
-            //        ShootProjectile().AddObserver(OnHit);
-            //        
-            //        _nextShootTime = Time.time + _shootDelay;
-            //    }
+            while (true)
+            {
+                if (_nextShootTime <= Time.time)
+                {
+                    ShootProjectile().AddObserver(OnHit);
+                    
+                    _nextShootTime = Time.time + _shootDelay;
+                }
 
-            //    yield return null;
-            //}
+                yield return null;
+            }
         }
         
         private IObservableAction<Action<IHit>> ShootProjectile()
@@ -89,6 +87,6 @@ namespace FT.Shooting
             return projectile.OnHit;
         }
         
-        private void OnHit(IHit hit) => hit.RegisterAbilityStates(_abilities.Values.ToList());
+        private void OnHit(IHit hit) => hit.RegisterAbilityStates(_abilities.Values.ToList(), GetComponent<CharacterStatsController>());
     }
 }

@@ -24,7 +24,7 @@ namespace FT.TD
         
         private readonly List<IAbilityState> _abilityStates = new();
 
-        public void RegisterAbilityStates(List<Data.Ability> abilities)
+        public void RegisterAbilityStates(List<Data.Ability> abilities, CharacterStatsController playerController)
         {
             foreach (Data.Ability ability in abilities)
             {
@@ -36,16 +36,16 @@ namespace FT.TD
                 }
 
                 abilityState = Instantiate(ability.Prefab, transform).GetComponent<IAbilityState>();
-                abilityState.Initialize(ability.Id);
+                abilityState.Initialize(ability.Id, playerController);
                 abilityState.OnDispose.AddObserver(RemoveAbilityState);
                 
                 _abilityStates.Add(abilityState);
                 _onAbilityRegister.Action?.Invoke(abilityState);
 
-                if (ability.SpreadType == AbilitySpreadType.MULTIPLE_TARGETS)
+                if (ability.SpreadType == AbilitySpreadType.SINGLE_TARGET)
                     abilityState.Execute();
                 else
-                    abilityState.Execute(abilities.Where(value => value.SpreadType == AbilitySpreadType.MULTIPLE_TARGETS).ToList());
+                    abilityState.Execute(abilities.Where(value => value.SpreadType == AbilitySpreadType.SINGLE_TARGET).ToList());
             }
         }
 
