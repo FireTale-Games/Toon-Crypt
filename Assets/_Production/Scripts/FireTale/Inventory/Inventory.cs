@@ -10,8 +10,8 @@ namespace FT.Inventory
 {
     public class Inventory : MonoBehaviour, IInventory
     {
-        [SerializeField] private List<InventoryItem> _items = new();
-        [SerializeField] private InventoryItem _weapon;
+        private readonly List<InventoryItem> _items = new();
+        private InventoryItem _weapon;
         [SerializeField] private Item[] _debugItems;
         
         public IObservableAction<Action<InventoryItem>> OnInventoryUpdate => _onInventoryUpdate;

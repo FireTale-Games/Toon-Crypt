@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using FT.Ability;
 using FT.Data;
 using FT.Shooting;
@@ -11,7 +12,7 @@ namespace FT.TD
 {
     public class CharacterStatsController : MonoBehaviour, IHit
     {
-        public float health = 100.0f;
+        [field: SerializeField] public float Health { get; private set; } = 100.0f;
         
         public IObservableAction<Action<IAbilityState>> OnAbilityRegister => _onAbilityRegister;
         private readonly ObservableAction<Action<IAbilityState>> _onAbilityRegister = new();
@@ -58,10 +59,23 @@ namespace FT.TD
             _abilityStates.Remove(abilityState);
         }
 
+        public void ApplyHeal(float healAmount, Transform healParticle = null)
+        {
+            float amount = Health + healAmount;
+            Health = amount > 100 ? 100 : amount;
+
+            if (healParticle == null)
+                return;
+
+            Transform particle = Instantiate(healParticle, transform);
+            float duration = GetComponentsInChildren<ParticleSystem>().Select(ps => ps.main.duration).Prepend(0).Max();
+            DOVirtual.DelayedCall(duration, () => Destroy(particle.gameObject));
+        }
+        
         public void ApplyDamage(float damage)
         {
-            health -= damage;
-            _onDamageReceived.Action?.Invoke(health);
+            Health -= damage;
+            _onDamageReceived.Action?.Invoke(Health);
         }
     }
 }

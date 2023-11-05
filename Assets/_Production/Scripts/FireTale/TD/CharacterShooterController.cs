@@ -22,6 +22,8 @@ namespace FT.Shooting
         
         private void Awake()
         {
+            DebugAbilities();
+            
             CharacterState state = GetComponent<Character>()?.State;
             state?.IsShooting.AddObserver(ToggleShooting);
 
@@ -88,5 +90,15 @@ namespace FT.Shooting
         }
         
         private void OnHit(IHit hit) => hit.RegisterAbilityStates(_abilities.Values.ToList(), GetComponent<CharacterStatsController>());
+
+        [SerializeField] private List<Data.Ability> _debugAbilities = new();
+
+        private void DebugAbilities()
+        {
+            for (int i = 0; i < _debugAbilities.Count; i++)
+            {
+                _abilities[i] = _debugAbilities[i];
+            }
+        }
     }
 }
