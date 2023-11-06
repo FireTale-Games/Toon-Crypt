@@ -4,7 +4,6 @@ using FT.Data;
 using FT.Tools.Observers;
 using FT.UI;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace FT.Inventory
 {
@@ -12,7 +11,6 @@ namespace FT.Inventory
     {
         private readonly List<InventoryItem> _items = new();
         private InventoryItem _weapon;
-        [SerializeField] private Item[] _debugItems;
         
         public IObservableAction<Action<InventoryItem>> OnInventoryUpdate => _onInventoryUpdate;
         private readonly ObservableAction<Action<InventoryItem>> _onInventoryUpdate = new();
@@ -23,12 +21,6 @@ namespace FT.Inventory
         public IObservableAction<Action<int, int>> OnAbilityUpdate => _onAbilityUpdate;
         private readonly ObservableAction<Action<int, int>> _onAbilityUpdate = new();
         
-        private void Awake()
-        {
-            if (_debugItems != null) 
-                InitializeDebugItems();
-        }
-
         public void InitializeInventory()
         {
             foreach (InventoryItem inventoryItem in _items)
@@ -68,15 +60,27 @@ namespace FT.Inventory
             _weapon._abilities[slotIndex] = inventoryItem.Id;
             _onAbilityUpdate.Action?.Invoke(inventoryItem.Id, slotIndex);
         }
-
+        
+        #region GAME_DEBUG
+#if UNITY_EDITOR
+        [SerializeField] private Item[] _debugItems;
+        
+        private void Awake()
+        {
+            if (_debugItems != null) 
+                InitializeDebugItems();
+        }
+        
         private void InitializeDebugItems()
         {
-            foreach (Item debugItem in _debugItems)
+            for (int i = 0; i < _debugItems.Length; i++)
             {
-                InventoryItem inventoryItem = new(debugItem.Id, Random.Range(0, 27));
+                InventoryItem inventoryItem = new(_debugItems[i].Id, i);
                 _items.Add(inventoryItem);
                 _onInventoryUpdate.Action?.Invoke(inventoryItem);
             }
         }
+#endif
+        #endregion
     }
 }

@@ -22,7 +22,9 @@ namespace FT.Shooting
         
         private void Awake()
         {
+#if UNITY_EDITOR
             DebugAbilities();
+#endif
             
             CharacterState state = GetComponent<Character>()?.State;
             state?.IsShooting.AddObserver(ToggleShooting);
@@ -49,7 +51,7 @@ namespace FT.Shooting
         private void OnAbilityChange(int id, int index)
         {
             if (id == 0) _abilities.Remove(index);
-            else _abilities[index] = ItemDatabase.Get<Data.Ability>(index);
+            else _abilities[index] = ItemDatabase.Get<Data.Ability>(id);
         }
 
         private void ToggleShooting(bool value)
@@ -91,14 +93,16 @@ namespace FT.Shooting
         
         private void OnHit(IHit hit) => hit.RegisterAbilityStates(_abilities.Values.ToList(), GetComponent<CharacterStatsController>());
 
+        #region GAME_DEBUG
+#if UNITY_EDITOR
         [SerializeField] private List<Data.Ability> _debugAbilities = new();
 
         private void DebugAbilities()
         {
             for (int i = 0; i < _debugAbilities.Count; i++)
-            {
                 _abilities[i] = _debugAbilities[i];
-            }
         }
     }
+#endif  
+    #endregion
 }
