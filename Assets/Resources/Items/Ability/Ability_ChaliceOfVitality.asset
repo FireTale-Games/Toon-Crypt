@@ -16,7 +16,7 @@ MonoBehaviour:
   <DisplayName>k__BackingField: Chalice of Vitality
   <Prefab>k__BackingField: {fileID: 7335985499785114225, guid: 9c38619f3fe534e4ea427dcc164c3604,
     type: 3}
-  <Sprite>k__BackingField: {fileID: 21300000, guid: eb95b93b18fdc3340958875cc82c01ba,
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 1c0b75e92a137364cb7e14c49a750b45,
     type: 3}
   <Rarity>k__BackingField: 1
   <SpreadType>k__BackingField: 0

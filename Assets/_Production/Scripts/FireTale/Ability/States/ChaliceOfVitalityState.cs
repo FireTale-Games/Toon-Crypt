@@ -30,7 +30,7 @@ namespace FT.Ability.States
                 yield break;
             }
 
-            PlayerStatController.ApplyHeal(10, _healParticle);
+            PlayerStatController.ApplyHeal(_parameters.Health, _healParticle);
             AbilityEnd();
         }
     }
