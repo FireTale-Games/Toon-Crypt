@@ -11,7 +11,7 @@ namespace FT.TD
         
         private void Awake()
         {
-            GetComponent<PlayerInputController>()?.OnInput.AddObserver(OnInput);
+            GetComponent<IInputProvider>()?.OnInput.AddObserver(OnInput);
             _physicsController = GetComponent<CharacterPhysicsController>();
             _state = GetComponent<Character>()?.State;
         }
@@ -21,7 +21,8 @@ namespace FT.TD
             _state.IsInventory.Set(inputData.isInventory);
             _state.IsEscape.Set(inputData.isEscape);
             _state.IsShooting.Set(inputData.isShooting);
-            _physicsController.SetMoveAndMouseValues(inputData.moveDirection, inputData.mousePosition);
+            _state.LookDirection.Set(inputData.lookRotation);
+            _physicsController.SetMoveAndMouseValues(inputData.moveDirection);
         }
     }
 }
