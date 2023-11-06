@@ -2827,16 +2827,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_Prefab
       objectReference: {fileID: 0}
-    - target: {fileID: 4534420715892263255, guid: 94db6e6c7fed8984fbd64065c9b534c0,
-        type: 3}
-      propertyPath: m_LookaheadTime
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4534420715892263255, guid: 94db6e6c7fed8984fbd64065c9b534c0,
-        type: 3}
-      propertyPath: m_LookaheadSmoothing
-      value: 3.22
-      objectReference: {fileID: 0}
     - target: {fileID: 5319225573371922037, guid: 94db6e6c7fed8984fbd64065c9b534c0,
         type: 3}
       propertyPath: m_LocalPosition.x
