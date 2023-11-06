@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using FT.Shooting;
-using FT.TD;
 using UnityEngine;
 
 namespace FT.Ability.States
@@ -17,7 +16,7 @@ namespace FT.Ability.States
                     continue;
                 
                 //((CharacterStatsController)hit).ApplyDamage(AbilityInfo.Damage);
-                hit.RegisterAbilityStates(abilities);
+                hit.RegisterAbilityStates(abilities, PlayerStatController);
             }
             
             _onDispose.Action?.Invoke(this);

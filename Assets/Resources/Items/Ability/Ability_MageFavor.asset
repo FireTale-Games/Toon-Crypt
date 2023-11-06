@@ -19,4 +19,4 @@ MonoBehaviour:
     type: 3}
   <Rarity>k__BackingField: 3
   <SpreadType>k__BackingField: 1
-  <AbilityInfo>k__BackingField: '{"Delay": 10}'
+  <AbilityParameters>k__BackingField: '{"Delay": 10}'

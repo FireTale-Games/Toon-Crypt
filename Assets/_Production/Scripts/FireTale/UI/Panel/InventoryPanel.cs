@@ -1,6 +1,6 @@
 using FT.Inventory;
 
-namespace FT.UI
+namespace FT.UI.Panel
 {
     public class InventoryPanel : BasePanel
     {
