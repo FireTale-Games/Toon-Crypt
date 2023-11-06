@@ -19,4 +19,4 @@ MonoBehaviour:
     type: 3}
   <Rarity>k__BackingField: 2
   <SpreadType>k__BackingField: 1
-  <AbilityInfo>k__BackingField: '{"Percentage": 5}'
+  <AbilityParameters>k__BackingField: '{"Percentage": 5}'

@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02e94126a97f9ed4b99adf588b263c2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  <Health>k__BackingField: 20
 --- !u!114 &7429153672560071703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,6 +85,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11353897ac20b80488a188bf5e70d15c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Health>k__BackingField: 100
   <WalkSpeed>k__BackingField: 10
 --- !u!114 &8744946605416693901
 MonoBehaviour:
@@ -192,11 +193,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46590978b202a6447911c6ab029ebc6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _items: []
-  _weapon:
-    <Id>k__BackingField: 0
-    <Index>k__BackingField: 0
-    _abilities: 
   _debugItems:
   - {fileID: 11400000, guid: 0ad7027905db4d4429623f5163f9c10b, type: 2}
   - {fileID: 11400000, guid: 0b22fc6ef685517419dedb0939273413, type: 2}

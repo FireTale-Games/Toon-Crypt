@@ -20,4 +20,4 @@ MonoBehaviour:
     type: 3}
   <Rarity>k__BackingField: 1
   <SpreadType>k__BackingField: 0
-  <AbilityInfo>k__BackingField: '{"Health": 10}'
+  <AbilityParameters>k__BackingField: '{"Health": 10}'

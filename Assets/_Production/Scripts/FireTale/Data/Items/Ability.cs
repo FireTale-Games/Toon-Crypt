@@ -12,7 +12,7 @@ namespace FT.Data
     public class Ability : Item
     {
         [field: SerializeField] public AbilitySpreadType SpreadType { get; private set; }
-        [field: SerializeField] public string AbilityInfo { get; private set; }
+        [field: SerializeField] public string AbilityParameters { get; private set; }
         
 #if UNITY_EDITOR
         public override void Setup(DataRow data)
@@ -20,7 +20,7 @@ namespace FT.Data
             base.Setup(data);
 
             SpreadType = data.Parse<AbilitySpreadType>(nameof(SpreadType));
-            AbilityInfo = data.Parse<string>(nameof(AbilityInfo));
+            AbilityParameters = data.Parse<string>(nameof(AbilityParameters));
         }
 #endif
     }

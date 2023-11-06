@@ -26,12 +26,13 @@ namespace FT.Ability
         {
             Id = id;
             PlayerStatController = playerStats;
+            AssignParameters();
         }
 
         public virtual void ResetDuration() { }
         public virtual void Execute() { }
         public virtual void Execute(List<Data.Ability> abilities) { }
-
+        protected virtual void AssignParameters() { }
         protected virtual void AbilityEnd()
         {
             _onDispose.Action?.Invoke(this);

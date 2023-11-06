@@ -13,7 +13,12 @@ namespace FT.Data
     {
         [field: SerializeField] public string Name { get; protected set; }
         
-        public int Id => NameToId(Name);
+        public int Id => GetHashCode();
+        
+        public override int GetHashCode() => NameToId(Name);
+        
+        public override bool Equals(object other) => 
+            other is ItemBase identifier && identifier.Id == Id;
         
         public static int NameToId(string input)
         {
