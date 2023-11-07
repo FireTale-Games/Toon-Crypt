@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: ExplosiveJester
   <DisplayName>k__BackingField: Explosive Jester
-  <Prefab>k__BackingField: {fileID: 0}
-  <Sprite>k__BackingField: {fileID: 21300000, guid: ab82c97aa0fdbdf499160e625d1f776f,
+  <Prefab>k__BackingField: {fileID: 7335985499785114225, guid: 08c17cf5da6759c42a6ee631d0bdf9f3,
+    type: 3}
+  <Sprite>k__BackingField: {fileID: 21300000, guid: fd5506cb29d8ec7419a1860f3c7ad590,
     type: 3}
   <Rarity>k__BackingField: 2
   <SpreadType>k__BackingField: 1
-  <AbilityParameters>k__BackingField: '{"Radius": 1, "Damage": 20}'
+  <RestrictionType>k__BackingField: 1
+  <AbilityParameters>k__BackingField: '{"Radius": 2, "Damage": 20}'

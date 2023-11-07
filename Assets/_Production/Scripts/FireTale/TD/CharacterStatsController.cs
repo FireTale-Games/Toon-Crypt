@@ -43,10 +43,10 @@ namespace FT.TD
                 _abilityStates.Add(abilityState);
                 _onAbilityRegister.Action?.Invoke(abilityState);
 
-                if (ability.SpreadType == AbilitySpreadType.SINGLE_TARGET)
+                if (ability.SpreadType == AbilitySpreadType.Single_Target)
                     abilityState.Execute();
                 else
-                    abilityState.Execute(abilities.Where(value => value.SpreadType == AbilitySpreadType.SINGLE_TARGET).ToList());
+                    abilityState.Execute(abilities.Where(value => value.SpreadType == AbilitySpreadType.Single_Target).ToList());
             }
         }
 
@@ -72,10 +72,17 @@ namespace FT.TD
             DOVirtual.DelayedCall(duration, () => Destroy(particle.gameObject));
         }
         
-        public void ApplyDamage(float damage)
+        public void ApplyFlatDamage(float damage, Transform damageParticle = null)
         {
             Health -= damage;
             _onDamageReceived.Action?.Invoke(Health);
+            
+            if (damageParticle == null)
+                return;
+
+            Transform particle = Instantiate(damageParticle, transform);
+            float duration = GetComponentsInChildren<ParticleSystem>().Select(ps => ps.main.duration).Prepend(0).Max();
+            DOVirtual.DelayedCall(duration, () => Destroy(particle.gameObject));
         }
     }
 }

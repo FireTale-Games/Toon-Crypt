@@ -2744,7 +2744,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7429153672560071703, guid: 94db6e6c7fed8984fbd64065c9b534c0,
         type: 3}
+      propertyPath: _debugAbilities.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7429153672560071703, guid: 94db6e6c7fed8984fbd64065c9b534c0,
+        type: 3}
       propertyPath: _debugAbilities.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0ad7027905db4d4429623f5163f9c10b,
+        type: 2}
+    - target: {fileID: 7429153672560071703, guid: 94db6e6c7fed8984fbd64065c9b534c0,
+        type: 3}
+      propertyPath: _debugAbilities.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0639116605cd40c4386212262c61af74,
+        type: 2}
+    - target: {fileID: 7429153672560071703, guid: 94db6e6c7fed8984fbd64065c9b534c0,
+        type: 3}
+      propertyPath: _debugAbilities.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 0ad7027905db4d4429623f5163f9c10b,
         type: 2}
