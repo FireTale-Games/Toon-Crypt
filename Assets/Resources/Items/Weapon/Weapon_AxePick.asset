@@ -18,3 +18,5 @@ MonoBehaviour:
   <Sprite>k__BackingField: {fileID: 21300000, guid: 10c5985180aa38f478cb33ca7fa5d1c1,
     type: 3}
   <Rarity>k__BackingField: 2
+  <CriticalChance>k__BackingField: 20
+  <CriticalDamage>k__BackingField: 1.2

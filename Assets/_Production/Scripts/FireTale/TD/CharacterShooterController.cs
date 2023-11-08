@@ -8,6 +8,7 @@ using FT.TD;
 using FT.Tools.Observers;
 using FT.UI;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace FT.Shooting
 {
@@ -91,8 +92,18 @@ namespace FT.Shooting
             return projectile.OnHit;
         }
         
-        private void OnHit(IHit hit) => hit.RegisterAbilityStates(_abilities.Values.ToList(), GetComponent<CharacterStatsController>());
+        private void OnHit(IHit hit) => hit.RegisterAbilityStates(ApplyAbilities(), GetComponent<CharacterStatsController>());
 
+        private List<Data.Ability> ApplyAbilities()
+        {
+            List<Data.Ability> abilities = _abilities.Values.ToList();
+            bool isCritical = Random.Range(0, 100) < 40;
+            if (!isCritical)
+                abilities = abilities.Where(ability => ability.RestrictionType != AbilityRestrictionType.Critical).ToList();
+            
+            return abilities;
+        }
+        
         #region GAME_DEBUG
 #if UNITY_EDITOR
         [SerializeField] private List<Data.Ability> _debugAbilities = new();

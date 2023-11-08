@@ -73,6 +73,7 @@ MonoBehaviour:
   _spawnPoint: {fileID: 4261930988654408766}
   _debugAbilities:
   - {fileID: 11400000, guid: 0ad7027905db4d4429623f5163f9c10b, type: 2}
+  - {fileID: 11400000, guid: 0639116605cd40c4386212262c61af74, type: 2}
 --- !u!114 &2722569595374299511
 MonoBehaviour:
   m_ObjectHideFlags: 0

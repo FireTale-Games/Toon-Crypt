@@ -19,5 +19,6 @@ MonoBehaviour:
     type: 3}
   <Rarity>k__BackingField: 3
   <SpreadType>k__BackingField: 1
+  <RestrictionType>k__BackingField: 0
   <AbilityParameters>k__BackingField: '{"Radius": 0.5, "Knockback": 2, "Damage":
     8}'

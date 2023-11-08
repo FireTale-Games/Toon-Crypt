@@ -13,7 +13,7 @@ namespace FT.Ability.States
 
         private ChaliceOfVitalityParameters _parameters;
         
-        [SerializeField] private Transform _healParticle;
+        [SerializeField] private Transform _particle;
 
         protected override void AssignParameters() => 
             _parameters = JsonConvert.DeserializeObject<ChaliceOfVitalityParameters>(AbilityInfo.AbilityParameters);
@@ -30,7 +30,7 @@ namespace FT.Ability.States
                 yield break;
             }
 
-            PlayerStatController.ApplyHeal(_parameters.Health, _healParticle);
+            PlayerStatController.ApplyHeal(_parameters.Health, _particle);
             AbilityEnd();
         }
     }
