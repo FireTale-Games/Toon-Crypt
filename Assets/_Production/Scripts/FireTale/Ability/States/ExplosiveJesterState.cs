@@ -34,8 +34,7 @@ namespace FT.Ability.States
             }
             
             StatsController.ApplyFlatDamage(_parameters.Damage, _particle);
-            _onDispose.Action?.Invoke(this);
-            Destroy(gameObject);
+            AbilityEnd();
         }
     }
 }

@@ -13,6 +13,7 @@ namespace FT.TD
     public class CharacterStatsController : MonoBehaviour, IHit
     {
         [field: SerializeField] public float Health { get; private set; } = 100.0f;
+        private List<Tween> delayedCallTween = new();
         
         public IObservableAction<Action<IAbilityState>> OnAbilityRegister => _onAbilityRegister;
         private readonly ObservableAction<Action<IAbilityState>> _onAbilityRegister = new();
@@ -24,6 +25,11 @@ namespace FT.TD
         private readonly ObservableAction<Action<IAbilityState>> _onAbilityUnregister = new();
         
         private readonly List<IAbilityState> _abilityStates = new();
+
+        private void OnDestroy()
+        {
+            foreach (Tween tween in delayedCallTween) tween.Kill(); 
+        }
 
         public void RegisterAbilityStates(List<Data.Ability> abilities, CharacterStatsController playerController)
         {
@@ -69,20 +75,30 @@ namespace FT.TD
 
             Transform particle = Instantiate(healParticle, transform);
             float duration = GetComponentsInChildren<ParticleSystem>().Select(ps => ps.main.duration).Prepend(0).Max();
-            DOVirtual.DelayedCall(duration, () => Destroy(particle.gameObject));
+            delayedCallTween.Add(AddNewTween(duration, particle));
         }
         
         public void ApplyFlatDamage(float damage, Transform damageParticle = null)
         {
             Health -= damage;
             _onDamageReceived.Action?.Invoke(Health);
+
+            if (Health <= 0)
+                Destroy(gameObject);
             
-            if (damageParticle == null)
+            if (damageParticle == null || Health <= 0)
                 return;
 
             Transform particle = Instantiate(damageParticle, transform);
             float duration = GetComponentsInChildren<ParticleSystem>().Select(ps => ps.main.duration).Prepend(0).Max();
-            DOVirtual.DelayedCall(duration, () => Destroy(particle.gameObject));
+            delayedCallTween.Add(AddNewTween(duration, particle));
+        }
+
+        private Tween AddNewTween(float duration, Transform particle)
+        {
+            Tween tempTween = DOVirtual.DelayedCall(duration, () => Destroy(particle.gameObject));
+            tempTween.OnComplete(() => delayedCallTween.Remove(tempTween));
+            return tempTween;
         }
     }
 }
